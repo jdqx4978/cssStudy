@@ -2,24 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>棋盘</title>
-    <link rel="stylesheet" href="demo1.css">
+    <title>连续的图像边框</title>
 </head>
 <body>
-<span class="demo0"></span>
-<span class="demo1"></span>
-<span class="demo2"></span>
-<span class="demo4"></span>
-<span class="demo3"></span>
-<span class="demo5"></span>
-<span class="demo6"></span>
-<span class="demo7"></span>
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25">
-    <rect x="50" height="50" width="50"></rect>
-    <rect y="50" height="50" width="50"></rect>
-</svg>
-
+<!--最简单的办法是使用两个 HTML 元素：一个元素用来把我们的石雕图-->
+<!--片设为背景，另一个元素用来存放内容，并设置纯白背景，然后覆盖在前者-->
+<!--之上：-->
+<div class="something-meaningful"><div>
+ I have a nice stone art border,
+ don't I look pretty?
+</div></div>
+<div class="demo1">I have a nice stone art border,
+ don't I look pretty?</div>
+<div class="demo2">I have a nice stone art border,
+ don't I look pretty?</div>
 </body>
-<style lang="scss">
+<style>
+  .something-meaningful {
+     background: url(stone-art.jpg);
+      /*cover此时会保持图像的纵横比并将图像缩放成将完全覆盖背景定位区域的最小大小。*/
+     background-size: cover;
+     padding: 1em;
+  }
+    .something-meaningful > div {
+     background: white;
+     padding: 1em;
+    }
+    .demo1{
+        margin-top: 20px;
+        padding: 1em;
+        border: 1em solid transparent;
+        background: linear-gradient(white, white),
+         url(stone-art.jpg);
+        background-size: cover;
+        /*background-clip属性指定背景绘制区域。不指定的花白色背景就会渗透到padding和border*/
+        background-clip: padding-box, border-box;
+    }
+    /*demo1的例子不协调的原因是background-origin的起点是padding-box,然后平铺到border-box，只要把origin调整成border-box就好*/
+    .demo2{
+        margin-top: 20px;
+        padding: 1em;
+        border: 1em solid transparent;
+        background: linear-gradient(white, white),
+         url(stone-art.jpg);
+        background-size: cover;
+        background-clip: padding-box, border-box;
+        background-origin: border-box;
+    }
+    /*简写形式*/
+    .demo3{
+        padding: 1em;
+        border: 1em solid transparent;
+        background:
+         linear-gradient(white, white) padding-box,
+         url(stone-art.jpg) border-box 0 / cover;
+    }
 </style>
 </html>

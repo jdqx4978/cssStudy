@@ -543,3 +543,121 @@
 ```
 
 ![](.\image\Snipaste_2022-09-18_23-24-51.png)
+
+
+
+#### 伪随机背景
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>伪随机背景</title>
+</head>
+<body>
+<span class="demo1"></span>
+<span class="demo2"></span>
+<span class="demo3"></span>
+</body>
+<style>
+    span {
+        width: 240px;
+        height: 240px;
+        float: left;
+        margin-left: 30px;
+    }
+    .demo1 {
+        background: linear-gradient(90deg, #fb3 15%, #655 0, #655 40%, #ab4 0, #ab4 65%, hsl(20, 40%, 90%) 0);
+        background-size: 80px 100%;
+    }
+    .demo2{
+        background: hsl(20, 40%, 90%);
+        background-image:
+         linear-gradient(90deg, #fb3 10px, transparent 0),
+         linear-gradient(90deg, #ab4 20px, transparent 0),
+         linear-gradient(90deg, #655 20px, transparent 0);
+        background-size: 80px 100%, 60px 100%, 40px 100%;
+    }
+    /*使用相对质数进行平铺*/
+    .demo3{
+        background: hsl(20, 40%, 90%);
+        background-image:
+         linear-gradient(90deg, #fb3 11px, transparent 0),
+         linear-gradient(90deg, #ab4 23px, transparent 0),
+         linear-gradient(90deg, #655 41px, transparent 0);
+        background-size: 41px 100%, 61px 100%, 83px 100%;
+    }
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-09-19_23-37-09.png)
+
+### 1.7连续的图像边框
+
+```html
+![Snipaste_2022-09-20_00-03-55](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-20_00-03-55.png)<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>连续的图像边框</title>
+</head>
+<body>
+<!--最简单的办法是使用两个 HTML 元素：一个元素用来把我们的石雕图-->
+<!--片设为背景，另一个元素用来存放内容，并设置纯白背景，然后覆盖在前者-->
+<!--之上：-->
+<div class="something-meaningful"><div>
+ I have a nice stone art border,
+ don't I look pretty?
+</div></div>
+<div class="demo1">I have a nice stone art border,
+ don't I look pretty?</div>
+<div class="demo2">I have a nice stone art border,
+ don't I look pretty?</div>
+</body>
+<style>
+  .something-meaningful {
+     background: url(stone-art.jpg);
+      /*cover此时会保持图像的纵横比并将图像缩放成将完全覆盖背景定位区域的最小大小。*/
+     background-size: cover;
+     padding: 1em;
+  }
+    .something-meaningful > div {
+     background: white;
+     padding: 1em;
+    }
+    .demo1{
+        margin-top: 20px;
+        padding: 1em;
+        border: 1em solid transparent;
+        background: linear-gradient(white, white),
+         url(stone-art.jpg);
+        background-size: cover;
+        /*background-clip属性指定背景绘制区域。不指定的花白色背景就会渗透到padding和border*/
+        background-clip: padding-box, border-box;
+    }
+    /*demo1的例子不协调的原因是background-origin的起点是padding-box,然后平铺到border-box，只要把origin调整成border-box就好*/
+    .demo2{
+        margin-top: 20px;
+        padding: 1em;
+        border: 1em solid transparent;
+        background: linear-gradient(white, white),
+         url(stone-art.jpg);
+        background-size: cover;
+        background-clip: padding-box, border-box;
+        background-origin: border-box;
+    }
+    /*简写形式*/
+    .demo3{
+        padding: 1em;
+        border: 1em solid transparent;
+        background:
+         linear-gradient(white, white) padding-box,
+         url(stone-art.jpg) border-box 0 / cover;
+    }
+</style>
+</html>
+```
+
+![](.\\image\Snipaste_2022-09-20_00-03-55.png)
