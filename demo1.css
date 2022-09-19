@@ -1,0 +1,60 @@
+span {
+  width: 90px;
+  height: 90px;
+  display: block;
+  float: left;
+  margin: 10px;
+}
+
+.demo0 {
+  background: #eee;
+  background-image: linear-gradient(45deg, #bbb 25%, transparent 0);
+  background-size: 30px 30px;
+}
+
+.demo1 {
+  background: #eee;
+  background-image: linear-gradient(45deg, transparent 75%, #bbb 0);
+  background-size: 30px 30px;
+}
+
+.demo2 {
+  background: #eee;
+  background-image: linear-gradient(45deg, #bbb 25%, transparent 0), linear-gradient(45deg, transparent 75%, #bbb 0);
+  background-size: 30px 30px;
+}
+
+.demo4 {
+  background: #eee;
+  background-image: linear-gradient(45deg, #bbb 25%, transparent 0), linear-gradient(45deg, transparent 75%, #bbb 0);
+  background-position: 0 0, 15px 15px;
+  background-size: 30px 30px;
+}
+
+.demo3 {
+  background: #eee;
+  background-image: linear-gradient(45deg, #bbb 25%, transparent 0), linear-gradient(45deg, transparent 75%, #bbb 0), linear-gradient(45deg, #bbb 25%, transparent 0), linear-gradient(45deg, transparent 75%, #bbb 0);
+  background-position: 0 0, 15px 15px, 15px 15px, 30px 30px;
+  background-size: 30px 30px;
+}
+
+.demo5 {
+  background: #eee;
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 0, transparent 75%, rgba(0, 0, 0, 0.25) 0), linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 0, transparent 75%, rgba(0, 0, 0, 0.25) 0);
+  background-position: 0 0, 15px 15px;
+  background-size: 30px 30px;
+}
+
+.demo6 {
+  background: #58a;
+  background-image: linear-gradient(45deg, tan 25%, transparent 0, transparent 75%, tan 0), linear-gradient(45deg, tan 25%, transparent 0, transparent 75%, tan 0);
+  background-position: 0 0, 15px 15px;
+  background-size: 30px 30px;
+}
+
+.demo7 {
+  background: #eee url('data:image/svg+xml,      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25">    <rect x="50" height="50" width="50"></rect>    <rect y="50" height="50" width="50"></rect>    </svg>');
+  background-size: 30px 30px;
+}
+
+/*# sourceMappingURL=demo1.css.map */
