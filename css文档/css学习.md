@@ -1,5 +1,7 @@
 # css学习
 
+## 1背景
+
 ### 1.半透明边框
 
 ```html
@@ -661,3 +663,178 @@
 ```
 
 ![](.\\image\Snipaste_2022-09-20_00-03-55.png)
+
+### 1.8行军蚂蚁
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>行军蚂蚁</title>
+</head>
+<body>
+<div>Bacon ipsum dolor amet eu adipisicing elit tongue 
+    ground round ex fatback proident kielbasa ham hock. 
+    Sausage beef beef ribs aliquip t-bone mollit. 
+    Quis beef tri-tip sunt, cupim ut magna salami t-bone. 
+    Ut laboris bresaola ribeye biltong landjaeger. 
+    Chuck pork belly sed sausage.</div>
+</body>
+<style>
+ @keyframes ants { to { background-position: 100% 100% } }
+
+div {
+	padding: 1em;
+	border: 1px solid transparent;
+	background: linear-gradient(white, white) padding-box,
+	            repeating-linear-gradient(-45deg, black 0, black 25%, transparent 0, transparent 50%) 0 / .6em .6em;
+	animation: ants 12s linear infinite;
+
+	max-width: 20em;
+	font: 100%/1.6 Baskerville, Palatino, serif;
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-09-21_20-27-33.png)
+
+## 2形状
+
+### 2.1自适应椭圆
+
+![](\image\Snipaste_2022-09-21_20-36-21.png)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自适应椭圆</title>
+</head>
+<body>
+<div></div>
+</body>
+<style>
+div {
+	width: 16em;
+	height: 10em;
+	background: #fb3;
+	border-radius: 50%;
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-09-21_20-33-55.png)
+
+### 2.2半椭圆
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>半椭圆</title>
+</head>
+<body>
+<div></div>
+</body>
+<style>
+div {
+	display: inline-block;
+	width: 16em;
+	height: 10em;
+	margin: 1em;
+	background: #fb3;
+	border-radius: 50% / 100% 100% 0 0;
+}
+
+div:nth-of-type(2) { border-radius: 50% /0 0 100% 100%; }
+div:nth-of-type(3) { border-radius: 100% 0 0 100% / 50%; }
+div:nth-of-type(4) { border-radius: 0 100% 100% 0 / 50%; }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-21_20-50-00.png)
+
+### 2.3四分之一圆
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>半椭圆</title>
+</head>
+<body>
+<div></div>
+</body>
+<style>
+div {
+	display: inline-block;
+	width: 16em;
+	height: 10em;
+	margin: 1em;
+	background: #fb3;
+	border-radius: 100% 0 0 0;
+}
+
+div:nth-of-type(2) { border-radius: 0 100% 0 0; }
+div:nth-of-type(3) { border-radius: 0 0 100% 0; }
+div:nth-of-type(4) { border-radius: 0 0 0 100%; }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-21_23-04-58.png)
+
+
+
+### 2.4 糖果button网站
+
+http://simurai.com/archive/buttons
+
+### 2.5平行四边形
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>平行四方形</title>
+</head>
+<body>
+<a class="button">
+ <div>click me</div>
+</a>
+</body>
+<style lang="less">
+.button { transform: skewX(45deg); }
+.button > div { transform: skewX(-45deg);width:200px;height: 30px }
+
+.button {
+	display: inline-block;
+	padding: .5em 1em;
+	border: 0;
+    margin: .5em;
+	background: #58a;
+	color: white;
+    /*text-transform转换不同元素中的文本：
+    none	默认。定义带有小写字母和大写字母的标准的文本。
+    capitalize	文本中的每个单词以大写字母开头。
+    uppercase	定义仅有大写字母。
+    lowercase	定义无大写字母，仅有小写字母。
+    inherit	规定应该从父元素继承 text-transform 属性的值。*/
+	text-transform: uppercase;
+    /*下划线*/
+	text-decoration: none;
+	font: bold 200%/1 sans-serif;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-22_00-04-05.png)

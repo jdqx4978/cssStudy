@@ -2,60 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>连续的图像边框</title>
+    <title>平行四方形</title>
 </head>
 <body>
-<!--最简单的办法是使用两个 HTML 元素：一个元素用来把我们的石雕图-->
-<!--片设为背景，另一个元素用来存放内容，并设置纯白背景，然后覆盖在前者-->
-<!--之上：-->
-<div class="something-meaningful"><div>
- I have a nice stone art border,
- don't I look pretty?
-</div></div>
-<div class="demo1">I have a nice stone art border,
- don't I look pretty?</div>
-<div class="demo2">I have a nice stone art border,
- don't I look pretty?</div>
+<a class="button">
+ <div>click me</div>
+</a>
 </body>
-<style>
-  .something-meaningful {
-     background: url(stone-art.jpg);
-      /*cover此时会保持图像的纵横比并将图像缩放成将完全覆盖背景定位区域的最小大小。*/
-     background-size: cover;
-     padding: 1em;
-  }
-    .something-meaningful > div {
-     background: white;
-     padding: 1em;
-    }
-    .demo1{
-        margin-top: 20px;
-        padding: 1em;
-        border: 1em solid transparent;
-        background: linear-gradient(white, white),
-         url(stone-art.jpg);
-        background-size: cover;
-        /*background-clip属性指定背景绘制区域。不指定的花白色背景就会渗透到padding和border*/
-        background-clip: padding-box, border-box;
-    }
-    /*demo1的例子不协调的原因是background-origin的起点是padding-box,然后平铺到border-box，只要把origin调整成border-box就好*/
-    .demo2{
-        margin-top: 20px;
-        padding: 1em;
-        border: 1em solid transparent;
-        background: linear-gradient(white, white),
-         url(stone-art.jpg);
-        background-size: cover;
-        background-clip: padding-box, border-box;
-        background-origin: border-box;
-    }
-    /*简写形式*/
-    .demo3{
-        padding: 1em;
-        border: 1em solid transparent;
-        background:
-         linear-gradient(white, white) padding-box,
-         url(stone-art.jpg) border-box 0 / cover;
-    }
+<style lang="less">
+.button { transform: skewX(45deg); }
+.button > div { transform: skewX(-45deg);width:200px;height: 30px }
+
+.button {
+	display: inline-block;
+	padding: .5em 1em;
+	border: 0;
+    margin: .5em;
+	background: #58a;
+	color: white;
+    /*text-transform转换不同元素中的文本：
+    none	默认。定义带有小写字母和大写字母的标准的文本。
+    capitalize	文本中的每个单词以大写字母开头。
+    uppercase	定义仅有大写字母。
+    lowercase	定义无大写字母，仅有小写字母。
+    inherit	规定应该从父元素继承 text-transform 属性的值。*/
+	text-transform: uppercase;
+    /*下划线*/
+	text-decoration: none;
+	font: bold 200%/1 sans-serif;
+}
 </style>
 </html>
