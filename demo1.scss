@@ -1,93 +1,17 @@
-    @mixin polka($size,$dot,$base,$accent){
-        background: $base;
-        background-image: radial-gradient($accent $dot,transparent 0),
-                            radial-gradient($accent $dot,transparent 0);
-        background-size: $size $size;
-        background-position: 0 0, $size/2 $size/2;
-    }
- span{
-        width: 90px;
-        height: 90px;
-        display: block;
-        float: left;
-        margin: 10px;
-    }
-
-    .demo0{
-        background: #eee;
-        background-image: linear-gradient(45deg,#bbb 25%, transparent 0);
-        background-size: 30px 30px;
-    }
-    .demo1{
-        background: #eee;
-        background-image: linear-gradient(45deg,transparent 75%,#bbb 0);
-        background-size: 30px 30px;
-    }
-    .demo2{
-      background: #eee;
-      background-image: linear-gradient(45deg, #bbb 25%,transparent 0),
-                  linear-gradient(45deg,transparent 75%, #bbb 0);
-      background-size: 30px 30px;
-    }
-    .demo4{
-      background: #eee;
-      background-image: linear-gradient(45deg, #bbb 25%,transparent 0),
-                  linear-gradient(45deg,transparent 75%, #bbb 0);
-      background-position: 0 0,15px 15px;
-      background-size: 30px 30px;
-    }
-    .demo3{
-      background: #eee;
-      background-image: linear-gradient(45deg, #bbb 25%,transparent 0),
-                  linear-gradient(45deg,transparent 75%, #bbb 0),
-                  linear-gradient(45deg, #bbb 25%,transparent 0),
-                  linear-gradient(45deg,transparent 75%,#bbb 0);
-      background-position: 0 0,15px 15px,15px 15px,30px 30px;
-      background-size: 30px 30px;
-    }
-    //把demo3的第一组和第二组合成一层，第三组和第四组合成一层
-    .demo5{
-      background: #eee;
-      background-image: linear-gradient(45deg,rgba(0,0,0,.25) 25%,transparent 0,transparent 75%,rgba(0,0,0,.25) 0),
-                        linear-gradient(45deg,rgba(0,0,0,.25) 25%,transparent 0,transparent 75%,rgba(0,0,0,.25) 0);
-      background-position: 0 0,15px 15px;
-      background-size: 30px 30px;
-    }
-    @mixin checkerboard($size,$base,$accent:rgba(0,0,0,.25)){
-      background: $base;
-      background-image: linear-gradient(45deg,$accent 25%,transparent 0,transparent 75%,$accent 0),
-                        linear-gradient(45deg,$accent 25%,transparent 0,transparent 75%,$accent 0);
-      background-position: 0 0,$size $size;
-      background-size: 2*$size 2*$size;
-    }
-    .demo6{
-      @include checkerboard(15px,#58a,tan)
-    }
-    .demo7{
-      background: #eee url('data:image/svg+xml,\
-      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25">\
-    <rect x="50" height="50" width="50"></rect>\
-    <rect y="50" height="50" width="50"></rect>\
-    </svg>');
-      background-size: 30px 30px;
-    }
-
-    div {
-    text-decoration: none;
-    font: 24px/1em 'Droid Sans', sans-serif;
-    font-weight: bold;
-    text-shadow: rgb(255 255 255 / 50%) 0 1px 0;
-    user-select: none;
-    padding: 0.5em 0.6em 0.4em 0.6em;
-    margin: 0.5em;
-    display: inline-block;
-    position: relative;
-    border-radius: 8px;
-    border-top: 1px solid rgba(255,255,255,0.8);
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-        background-image: -webkit-gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) )), url(noise.png);
-    transition: background .2s ease-in-out;
-    color: hsl(0, 0%, 40%) !important;
-    background-color: hsl(0, 0%, 75%);
-    box-shadow: inset rgba(255,254,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.15) 0 -0.1em .3em, /* inner shadow */ hsl(0, 0%, 60%) 0 .1em 3px, hsl(0, 0%, 45%) 0 .3em 1px, /* color border */ rgba(0,0,0,0.2) 0 .5em 5px;
+@mixin beveled-corners($bg,
+ $tl:0, $tr:$tl, $br:$tl, $bl:$tr) {
+ background: $bg;
+ background:
+ linear-gradient(135deg, transparent $tl, $bg 0)
+ top left,
+ linear-gradient(225deg, transparent $tr, $bg 0)
+ top right,
+ linear-gradient(-45deg, transparent $br, $bg 0)
+ bottom right,
+ linear-gradient(45deg, transparent $bl, $bg 0)
+ bottom left;
+ background-size: 50% 50%;
+ background-repeat: no-repeat; }
+div{
+  @include beveled-corners(#58a, 15px, 5px);
 }

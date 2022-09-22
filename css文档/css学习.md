@@ -918,3 +918,126 @@ img:hover {
 ```
 
 ![](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-22_20-51-29.png)
+
+### 2.7切角效果
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菱形</title>
+    <link rel="stylesheet" href="demo1.css">
+</head>
+<body>
+<div>
+    Hey, focus! You’re supposed to be looking at my corners, not reading my text. The text is just placeholder!
+</div>
+</body>
+<style lang="css">
+    /*渐变方案*/
+div {
+	background: #58a;
+	background: linear-gradient(135deg, transparent 15px, #58a 0) top left,
+	            linear-gradient(-135deg, transparent 15px, #58a 0) top right,
+	            linear-gradient(-45deg, transparent 15px, #58a 0) bottom right,
+	            linear-gradient(45deg, transparent 15px, #58a 0) bottom left;
+	background-size: 50% 50%;
+	background-repeat: no-repeat;
+
+	padding: 1em 1.2em;
+	max-width: 12em;
+	color: white;
+	font: 150%/1.6 Baskerville, Palatino, serif;
+}
+    /*裁切路径方案 这个方法最大的好处在于，我们可以使用任意类型的背景，甚至可以对
+替换元素（比如图片）进行裁切。它还有一个更
+大的缺点，就是当内边距不够宽时，它会裁切掉文本，*/
+div {
+	background: #58a;
+	clip-path:
+	 		polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px),
+	 		calc(100% - 20px) 100%,
+	 		20px 100%, 0 calc(100% - 20px), 0 20px);
+	
+	padding: 1em 1.2em;
+	max-width: 12em;
+	color: white;
+	font: 150%/1.6 Baskerville, Palatino, serif;
+}
+    /*内联 SVG 与 border-image 方案*/
+    div {
+	border: 21px solid transparent;
+	border-image: 1 url('data:image/svg+xml,\
+	                      <svg xmlns="http://www.w3.org/2000/svg" width="3" height="3" fill="%2358a">\
+	                      <polygon points="0,1 1,0 2,0 3,1 3,2 2,3 1,3 0,2" />\
+	                      </svg>');
+	background: #58a;
+	background-clip: padding-box;
+	
+	padding: .2em .3em;
+	max-width: 12em;
+	color: white;
+	font: 150%/1.6 Baskerville, Palatino, serif;
+}
+</style>
+</html>
+```
+
+```scss
+@mixin beveled-corners($bg,
+ $tl:0, $tr:$tl, $br:$tl, $bl:$tr) {
+ background: $bg;
+ background:
+ linear-gradient(135deg, transparent $tl, $bg 0)
+ top left,
+ linear-gradient(225deg, transparent $tr, $bg 0)
+ top right,
+ linear-gradient(-45deg, transparent $br, $bg 0)
+ bottom right,
+ linear-gradient(45deg, transparent $bl, $bg 0)
+ bottom left;
+ background-size: 50% 50%;
+ background-repeat: no-repeat; }
+div{
+  @include beveled-corners(#58a, 15px, 5px);
+}
+```
+
+![](\image\Snipaste_2022-09-23_00-15-28.png)
+
+### 2.8弧形切角
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弧形切角</title>
+    <link rel="stylesheet" href="demo1.css">
+</head>
+<body>
+<div>
+    Hey, focus! You’re supposed to be looking at my corners, not reading my text. The text is just placeholder!
+</div>
+</body>
+<style lang="css">
+div {
+	background: #58a;
+	background:	radial-gradient(circle at top left, transparent 15px, #58a 0) top left,
+	            radial-gradient(circle at top right, transparent 15px, #58a 0) top right,
+	            radial-gradient(circle at bottom right, transparent 15px, #58a 0) bottom right,
+	            radial-gradient(circle at bottom left, transparent 15px, #58a 0) bottom left;
+	background-size: 50% 50%;
+	background-repeat: no-repeat;
+
+	padding: 1em 1.2em;
+	max-width: 12em;
+	color: white;
+	font: 130%/1.6 Baskerville, Palatino, serif;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-23_00-36-08.png)
