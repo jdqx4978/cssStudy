@@ -812,6 +812,7 @@ http://simurai.com/archive/buttons
 </a>
 </body>
 <style lang="less">
+    /*基础方案*/
 .button { transform: skewX(45deg); }
 .button > div { transform: skewX(-45deg);width:200px;height: 30px }
 
@@ -833,8 +834,87 @@ http://simurai.com/archive/buttons
 	text-decoration: none;
 	font: bold 200%/1 sans-serif;
 }
+    /*伪元素方案*/
+/*.button {*/
+/*	position: relative;*/
+/*	display: inline-block;*/
+/*	padding: .5em 1em;*/
+/*	border: 0; margin: .5em;*/
+/*	background: transparent;*/
+/*	color: white;*/
+/*	text-transform: uppercase;*/
+/*	text-decoration: none;*/
+/*	font: bold 200%/1 sans-serif;*/
+/*}*/
+
+/*.button::before {*/
+/*	content: ''; !* To generate the box *!*/
+/*	position: absolute;*/
+/*	top: 0; right: 0; bottom: 0; left: 0;*/
+/*	z-index: -1;*/
+/*	background: #58a;*/
+/*	transform: skew(45deg);*/
+/*}*/
 </style>
 </html>
 ```
 
 ![](\image\Snipaste_2022-09-22_00-04-05.png)
+
+### 2.6菱形
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菱形</title>
+</head>
+<body>
+<!--<div class="diamond">-->
+<!--    <img src="stone-art.jpg" alt=""/>-->
+<!--</div>-->
+<img src="stone-art.jpg" alt="">
+</body>
+<style lang="less">
+    /*不理想的做法*/
+    /*.diamond {*/
+    /*	width: 200px;*/
+    /*	transform: rotate(45deg);*/
+    /*	overflow: hidden;*/
+    /*    margin: 200px 0 0 50px*/
+    /*}*/
+
+    /*.diamond img {*/
+    /*	max-width: 100%;*/
+    /*	transform: rotate(-45deg);*/
+    /*}*/
+    /*普通方案 用lingxing.png*/
+    /*.diamond {*/
+    /*    width: 250px;*/
+    /*    height: 250px;*/
+    /*    transform: rotate(45deg);*/
+    /*    overflow: hidden;*/
+    /*}*/
+    /*!*1.42为等边三角形斜边长的长度 1.42n 图片不是正方形 效果不够完美*!*/
+    /*.diamond > img {*/
+    /*    max-width: 100%;*/
+    /*    transform: rotate(-45deg) scale(1.42);*/
+    /*}*/
+    /*裁切路径方案 可以不用等边图片*/
+img {
+	max-width: 250px;
+	margin: 20px;
+    /*这下面为4个点，每个点对应的坐标位置*/
+	clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+	transition: 1s;
+}
+
+img:hover {
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+</style>
+</html>
+```
+
+![](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-22_20-51-29.png)
