@@ -1041,3 +1041,669 @@ div {
 ```
 
 ![](\image\Snipaste_2022-09-23_00-36-08.png)
+
+### 2.9梯形标签页
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>梯形</title>
+    <link rel="stylesheet" href="demo1.css">
+</head>
+<body>
+<!-- This HTML is invalid and just for demo purposes. Don't use multiple main elements! -->
+
+<nav>
+	<a href="#">Home</a>
+	<a href="#" class="selected">Projects</a>
+	<a href="#">About</a>
+</nav>
+<main>
+	Content area
+</main>
+
+<nav class="left">
+	<a href="#">Home</a>
+	<a href="#" class="selected">Projects</a>
+	<a href="#">About</a>
+</nav>
+<main>
+	Content area
+</main>
+
+<nav class="right">
+	<a href="#">Home</a>
+	<a href="#" class="selected">Projects</a>
+	<a href="#">About</a>
+</nav>
+<main>
+	Content area
+</main>
+</body>
+<style lang="css">
+/**
+ * Trapezoid tabs
+ */
+/*对元素使用了 3D 变形之后，其内部的变形效应是“不可逆转”的*/
+/*指定 transform-origin: bottom;，当它在 3D 空间中旋转时，可以把它的底边固定住。*/
+/*垂直方向上的缩放程度（也就是scaleY() 变形属性）在达到 130% 左右时刚好可以补足它在高度上的缩水*/
+/*这个技巧最大的优点在于样式层面上极大的灵活性 给它添加了背景、边框、圆角、投影等一系列样式。
+它们都可以完美生效！*/
+/*缺点：斜边的角度依赖于元素的宽度。*/
+body {
+	padding: 40px;
+	font: 130%/2 Frutiger LT Std, sans-serif;
+}
+
+nav {
+	position: relative;
+	z-index: 1;
+	padding-left: 1em;
+}
+
+nav > a {
+	position: relative;
+	display: inline-block;
+	padding: .3em 1em 0;
+	color: inherit;
+	text-decoration: none;
+	margin: 0 -.3em;
+}
+
+nav > a::before,
+main {
+	border: .1em solid rgba(0,0,0,.4);
+}
+
+nav a::before {
+	content: ''; /* To generate the box */
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	z-index: -1;
+	border-bottom: none;
+	border-radius: .5em .5em 0 0;
+	background: #ccc linear-gradient(hsla(0,0%,100%,.6), hsla(0,0%,100%,0));
+	box-shadow: 0 .15em white inset;
+	transform: scale(1.1, 1.3) perspective(.5em) rotateX(5deg);
+	transform-origin: bottom;
+}
+
+nav a.selected { z-index: 2;}
+
+nav a.selected::before {
+	background-color: #eee;
+	margin-bottom: -.08em;
+}
+
+main {
+	display: block;
+	margin-bottom: 1em;
+	background: #eee;
+	padding: 1em;
+	border-radius: .15em;
+}
+
+nav.left > a::before {
+	transform: scale(1.2, 1.3) perspective(.5em) rotateX(5deg);
+	transform-origin: bottom left;
+}
+
+nav.right { padding-left: 2em; }
+
+nav.right > a::before {
+	transform: scale(1.2, 1.3) perspective(.5em) rotateX(5deg);
+	transform-origin: bottom right;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-24_12-54-13.png)
+
+### 2.10简单的饼图
+
+#### 基于 transform 的解决方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>梯形</title>
+</head>
+<body>
+<div class="pie">0%</div>
+<div class="pie">20%</div>
+<div class="pie">40%</div>
+<div class="pie">60%</div>
+<div class="pie">80%</div>
+<script>
+    document.querySelectorAll('.pie').forEach(function(pie) {
+        const p = parseFloat(pie.textContent);
+        pie.style.animationDelay = '-' + p + 's';
+});
+</script>
+</body>
+<style lang="css">
+.pie {
+	display: inline-block;
+	position: relative;
+	width: 100px;
+	line-height: 100px;
+	border-radius: 50%;
+	background: yellowgreen;
+	background-image: linear-gradient(to right, transparent 50%, #655 0);
+	color: transparent;
+	text-align: center;
+}
+
+@keyframes spin {
+	to { transform: rotate(.5turn); }
+}
+@keyframes bg {
+	50% { background: #655; }
+}
+
+.pie::before {
+	content: '';
+	position: absolute;
+	top: 0; left: 50%;
+	width: 50%; height: 100%;
+	border-radius: 0 100% 100% 0 / 50%;
+	background-color: inherit;
+	transform-origin: left;
+	animation: spin 50s linear infinite, bg 100s step-end infinite;
+	animation-play-state: paused;
+	animation-delay: inherit;
+}
+</style>
+</html>
+```
+
+#### 基于svg的解决方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>梯形</title>
+</head>
+<body>
+<div class="pie">20%</div>
+<div class="pie">60%</div>
+<div class="pie animated">0%</div>
+
+</body>
+<script>
+    function $$(selector, context) {
+	context = context || document;
+	var elements = context.querySelectorAll(selector);
+	return Array.prototype.slice.call(elements);
+}
+
+ $$('.pie').forEach(function(pie) {
+	var p = parseFloat(pie.textContent);
+	var NS = "http://www.w3.org/2000/svg";
+	var svg = document.createElementNS(NS, "svg");
+	var circle = document.createElementNS(NS, "circle");
+	var title = document.createElementNS(NS, "title");
+
+	circle.setAttribute("r", 16);
+	circle.setAttribute("cx", 16);
+	circle.setAttribute("cy", 16);
+	circle.setAttribute("stroke-dasharray", p + " 100");
+
+	svg.setAttribute("viewBox", "0 0 32 32");
+	title.textContent = pie.textContent;
+	pie.textContent = '';
+	svg.appendChild(title);
+	svg.appendChild(circle);
+	pie.appendChild(svg);
+});
+</script>
+<style lang="css">
+.pie {
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	margin: 10px;
+	transform: rotate(-90deg);
+}
+
+svg {
+	background: yellowgreen;
+	border-radius: 50%;
+}
+
+circle {
+	fill: yellowgreen;
+	stroke: #655;
+	stroke-width: 32;
+}
+
+@keyframes grow { to { stroke-dasharray: 100 100 } }
+
+.pie.animated circle {
+	animation: grow 2s infinite linear;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-24_14-01-33.png)
+
+### 2.11投影
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投影</title>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+</body>
+<style lang="css">
+    /*单侧投影*/
+    div {
+        width: 1.6in;
+        height: 1in;
+        background: #fb3;
+        box-shadow: 0 5px 4px -4px black;
+        float: left;
+        margin-left: 10px;
+    }
+
+    /*临边投影*/
+    div:nth-child(2) {
+        box-shadow: 3px 3px 6px -3px black;
+    }
+
+    /*双侧投影*/
+    div:nth-child(3) {
+        box-shadow: 5px 0 5px -5px black,
+        -5px 0 5px -5px black;
+    }
+</style>
+</html>
+```
+
+![](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-24_15-31-32.png)
+
+### 2.12不规则投影
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投影</title>
+</head>
+<body>
+<div class="speech">Speech bubble</div>
+<div class="dotted">Dotted border</div>
+<div class="cutout">Cutout corners</div>
+</body>
+<style lang="css">
+div {
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+	vertical-align: bottom;
+	box-sizing: border-box;
+	width: 5.9em;
+	height: 5.2em;
+	margin: .6em;
+	background: #fb3;
+	/*box-shadow: .1em .1em .3em rgba(0,0,0,.5);*/
+	-webkit-filter: drop-shadow(.1em .1em .1em rgba(0,0,0,.5));
+	filter: drop-shadow(.1em .1em .1em rgba(0,0,0,.5));
+	font: 200%/1.6 Baskerville, Palatino, serif;
+	text-align: center;
+}
+
+.speech {
+	border-radius: .3em;
+}
+
+.speech::before {
+	content: '';
+	position: absolute;
+	top: 1em;
+	right: -.7em;
+	width: 0;
+	height: 0;
+	border: 1em solid transparent;
+	border-left-color: #fb3;
+	border-right-width: 0;
+}
+
+.dotted {
+	background: transparent;
+	border: .3em dotted #fb3;
+}
+
+.cutout {
+	border: .5em solid #58a;
+	border-image: 1 url('data:image/svg+xml,\
+	                     <svg xmlns="http://www.w3.org/2000/svg"\
+		                 width="3" height="3" fill="%23fb3">\
+		     	         <polygon points="0,1 1,0 2,0 3,1 3,2 2,3 1,3 0,2"/>\
+		     	</svg>');
+	background-clip: padding-box;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-24_15-44-06.png)
+
+tip：任何非透明的部分都会被一视同仁地打上投影，比如说text-shadow已经设置了，drop-shadow也会在投影的基础上投影
+
+### 2.13染色
+
+#### 基于滤镜的方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>染色</title>
+</head>
+<body>
+<img src="lingxing.png"  alt=""/>
+</body>
+<style lang="css">
+    /*sepia()，它会给图片增加一种降饱和度的橙黄色染色效果，几乎所有像素的色相值会被收敛到 35~40;
+    saturate() 滤镜来给每个像素提升饱和度 假设我们想要的主色调是 hsl(335, 100%, 50%)，那就需要把饱和度提升一些，
+    于是我们将饱和度参数设置为 4。具体取值取决于实际情况，我们通常需要用肉眼来观察和判断。
+    但我们并不希望把图片调为这种橙黄色调，而是稍深的亮粉色。因此，我们还需要再添加一个 hue-rotate() 滤镜，
+    把每个像素的色相以指定的度数进行偏移。为了把原有的色相值 40 改变为 335，我们需要增加大约 295 度（335 – 40）：
+    */
+    /*sepiar()将图像转换为深褐色。值定义转换的比例。值为100%则完全是深褐色的，值为0%图像无变化。值在0%到100%之间，则是效果的线性乘子。若未设置，值默认是0；*/
+    /*saturate()转换图像饱和度。值定义转换的比例。值为0%则是完全不饱和，值为100%则图像无变化。其他值，则是效果的线性乘子。超过100%的值是允许的，则有更高的饱和度。
+    若值未设置，值默认是1。*/
+    /*hue-rotate()  给图像应用色相旋转。"angle"一值设定图像会被调整的色环角度值。值为0deg，则图像无变化。若值未设置，默认值是0deg。该值虽然没有最大值，超过360deg的值相当于又绕一圈。*/
+img {
+	max-width: 640px;
+	transition: 1s filter, 1s -webkit-filter;
+	-webkit-filter: sepia(1) saturate(4) hue-rotate(295deg);
+	filter: sepia(1) saturate(4) hue-rotate(295deg);
+}
+
+img:hover,
+img:focus {
+	-webkit-filter: none;
+	filter: none;
+}
+</style>
+</html>
+```
+
+#### 居于混合模式
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>染色</title>
+</head>
+<body>
+<!--第一种选择-->
+<a href="#something">
+ <img src="lingxing.png" alt="Rawrrr!" />
+</a>
+<!--第二种选择-->
+<div style="background-image:url(lingxing.png)" class="tinted-image"></div>
+</body>
+<style lang="css">
+    /*第一种选择：需要把图片包裹在一个容器中，并把容器的背景色设置为我们想要的主色调。*/
+    a {
+        background: hsl(335, 100%, 50%);
+        display: inline-block;
+        transition: .5s background-color;
+        background-size: cover;
+        width: 640px;
+        height: 440px;
+        overflow: hidden;
+    }
+    img {
+        mix-blend-mode: luminosity;
+    }
+    a:hover{
+        background-color: transparent;
+    }
+    /*第二种选择：不用图片元素，而是用 <div> 元素——把这个元素的 第一层背景设置为要染色的图片，并把第二层的背景设置为我们想要的主色调*/
+    .tinted-image {
+        margin-top: 10px;
+        width: 640px;
+        height: 440px;
+        background-size: cover;
+        background-color: hsl(335, 100%, 50%);
+        background-blend-mode: luminosity;
+        transition: .5s background-color;
+    }
+
+    .tinted-image:hover {
+        background-color: transparent;
+    }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-24_16-04-41.png)
+
+#### 一般方法
+
+使用图像处理软件来生成图片的两个版本，然后再写一些简单的 CSS 代码来处理这两个版本的交替显现
+
+tip：它们的主要问题在于：
+
+图片的尺寸需要在 CSS 代码中写死； 
+
+在语义上，这个元素并不是一张图片，因此并不会被读屏器之类的设备读出来。
+
+### 2.14毛玻璃
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>毛玻璃</title>
+</head>
+<body>
+<main>
+<blockquote>“The only way to get rid of a temptation is to yield to it. Resist it, and your soul grows sick with longing for the things it has forbidden to itself, with desire for what its monstrous laws have made monstrous and unlawful.”</em>
+<footer>— <cite>Oscar Wilde, The Picture of Dorian Gray</cite></footer>
+</blockquote>
+</main>
+</body>
+<style lang="css">
+
+body {
+	min-height: 100vh;
+	box-sizing: border-box;
+	margin: 0;
+    /*这里的padding-top用的真好 让我对盒子的理解有了新的理解*/
+	padding-top: calc(50vh - 6em);
+	font: 150%/1.6 Baskerville, Palatino, serif;
+}
+
+body, main::before {
+	background: url("lingxing.png") 0 / cover fixed;
+}
+
+main {
+	position: relative;
+	margin: 0 auto;
+	padding: 1em;
+	max-width: 23em;
+	background: hsla(0,0%,100%,.25) border-box;
+	overflow: hidden;
+	border-radius: .3em;
+	box-shadow: 0 0 0 1px hsla(0,0%,100%,.3) inset,
+	            0 .5em 1em rgba(0, 0, 0, 0.6);
+	text-shadow: 0 1px 1px hsla(0,0%,100%,.3);
+}
+
+main::before {
+	content: '';
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	margin: -30px;
+	z-index: -1;
+	-webkit-filter: blur(20px);
+	filter: blur(20px);
+}
+
+blockquote { font-style: italic }
+blockquote cite { font-style: normal; }
+</style>
+</html>
+```
+
+<img src="\image\Snipaste_2022-09-24_17-01-42.png" style="zoom:50%;" />
+
+### 2.15折角
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>折角</title>
+</head>
+<body>
+<div class="demo">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+<div class="note">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+</body>
+<style lang="css">
+/*普通45度折角方案*/
+.demo {
+	width: 12em;
+	background: #58a; /* Fallback */
+	background:
+		linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.4) 0) 100% 0 no-repeat,
+		linear-gradient(-135deg, transparent 1.5em, #58a 0);
+	background-size: 2em 2em, auto;
+
+	padding: 2em;
+	color: white;
+	font: 100%/1.6 Baskerville, Palatino, serif;
+}
+
+/**
+ * Folded corner effect — at an angle
+ */
+/*30度折角方案*/
+.note {
+	position: relative;
+	width: 12em;
+	background: #58a; /* Fallback */
+	background: linear-gradient(-150deg, transparent 1.5em, #58a 0);
+	padding: 2em;
+	color: white;
+	font: 100%/1.6 Baskerville, Palatino, serif;
+	border-radius: .5em;
+}
+
+.note::before {
+	content: '';
+	position: absolute;
+	top: 0; right: 0;
+	width: 1.73em; height: 3em;
+	background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.2) 0, rgba(0,0,0,.4)) 100% 0 no-repeat;
+	transform: translateY(-1.3em) rotate(-30deg);
+	transform-origin: bottom right;
+	border-bottom-left-radius: .5em;
+	box-shadow: -.2em .2em .3em -.1em rgba(0,0,0,.15)
+}
+/*多角度复用方案*/
+/*在scss文件中*/
+    <!--多角度复用方案-->
+<!--在scss文件中-->
+<div class="note">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+<div class="note">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+<div class="note">“The only way to get rid of a temptation is to yield to it. Resist it, and your soul grows sick with longing for the things it has forbidden to itself, with desire for what its monstrous laws have made monstrous and unlawful.”
+— Oscar Wilde, The Picture of Dorian Gray</div> 
+</style>
+</html>
+```
+
+```scss
+//@import "compass/css3";
+
+@mixin folded-corner($background, $size, $angle: 30deg) {
+
+position: relative;
+background: $background; /* Fallback */
+background: linear-gradient($angle - 180deg, transparent $size, $background 0);
+border-radius: .5em;
+
+$x: $size / sin($angle);
+$y: $size / cos($angle);
+
+&::before {
+	content: '';
+	position: absolute;
+	top: 0; right: 0;
+	background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.2) 0, rgba(0,0,0,.4)) 100% 0 no-repeat;
+	width: $y;
+	height: $x;
+	transform: translateY($y - $x) rotate(2*$angle - 90deg);
+  transform-origin: bottom right;
+	border-bottom-left-radius: inherit;
+	box-shadow: -.2em .2em .3em -.1em rgba(0,0,0,.15);
+}
+
+}
+
+.note {
+ 	position: relative;
+ 	display: inline-block;
+ 	vertical-align: top;
+	width: 15em;
+ 	padding: 2em;
+  margin: 0 1rem;
+	color: white;
+	font: 100%/1.6 Baskerville, Palatino, serif;
+	border-radius: .5em;
+	@include folded-corner(#58a, 1.5em, 25deg);
+}
+
+.note + .note {
+  font-size: 130%;
+ 	@include folded-corner(#655, 2em, 70deg);
+}
+
+.note:nth-child(3) {
+  width: 20em;
+ 	@include folded-corner(yellowgreen, 1.8em, 45deg);
+}
+
+body {
+	/* Showcase that the effect supports any backdrop */
+	background: repeating-linear-gradient(-45deg, #ddd 0, #ddd 25%, white 0, white 50%) 0 / 6px 6px;
+	box-sizing: border-box;
+	padding: 1em;
+	height: 100vh;
+}
+//SCSS还没有原生支持三角函数。如果想正常使用三角函数，需要用到 Compass 框架（http://compass-style.org）或 其他库。借助泰勒展开式，还可
+//以自己写一套三角函数的实现。 另外，Stylus和LESS原生内置了三角函数。
+```
+
+![](\image\Snipaste_2022-09-25_01-35-39.png)

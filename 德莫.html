@@ -2,28 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>弧形切角</title>
-    <link rel="stylesheet" href="demo1.css">
+    <title>折角</title>
 </head>
 <body>
-<div>
-    Hey, focus! You’re supposed to be looking at my corners, not reading my text. The text is just placeholder!
-</div>
+<div class="demo">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+<div class="note">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+
+<!--多角度复用方案-->
+<!--在scss文件中-->
+<div class="note">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+<div class="note">“The only way to get rid of a temptation is to yield to it.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
+<div class="note">“The only way to get rid of a temptation is to yield to it. Resist it, and your soul grows sick with longing for the things it has forbidden to itself, with desire for what its monstrous laws have made monstrous and unlawful.”
+— Oscar Wilde, The Picture of Dorian Gray</div>
 </body>
 <style lang="css">
-div {
-	background: #58a;
-	background:	radial-gradient(circle at top left, transparent 15px, #58a 0) top left,
-	            radial-gradient(circle at top right, transparent 15px, #58a 0) top right,
-	            radial-gradient(circle at bottom right, transparent 15px, #58a 0) bottom right,
-	            radial-gradient(circle at bottom left, transparent 15px, #58a 0) bottom left;
-	background-size: 50% 50%;
-	background-repeat: no-repeat;
+/*普通45度折角方案*/
+.demo {
+	width: 12em;
+	background: #58a; /* Fallback */
+	background:
+		linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.4) 0) 100% 0 no-repeat,
+		linear-gradient(-135deg, transparent 1.5em, #58a 0);
+	background-size: 2em 2em, auto;
 
-	padding: 1em 1.2em;
-	max-width: 12em;
+	padding: 2em;
 	color: white;
-	font: 130%/1.6 Baskerville, Palatino, serif;
+	font: 100%/1.6 Baskerville, Palatino, serif;
 }
+
+/**
+ * Folded corner effect — at an angle
+ */
+/*30度折角方案*/
+.note {
+	position: relative;
+	width: 12em;
+	background: #58a; /* Fallback */
+	background: linear-gradient(-150deg, transparent 1.5em, #58a 0);
+	padding: 2em;
+	color: white;
+	font: 100%/1.6 Baskerville, Palatino, serif;
+	border-radius: .5em;
+}
+
+.note::before {
+	content: '';
+	position: absolute;
+	top: 0; right: 0;
+	width: 1.73em; height: 3em;
+	background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.2) 0, rgba(0,0,0,.4)) 100% 0 no-repeat;
+	transform: translateY(-1.3em) rotate(-30deg);
+	transform-origin: bottom right;
+	border-bottom-left-radius: .5em;
+	box-shadow: -.2em .2em .3em -.1em rgba(0,0,0,.15)
+}
+/*多角度复用方案*/
+/*在scss文件中*/
 </style>
 </html>
