@@ -1,59 +1,28 @@
-//@import "compass/css3";
+//@mixin text-3d($color: white, $depth: 5) {
+// $shadows: ();
+// $shadow-color: $color;
+// @for $i from 1 through $depth {
+// $shadow-color: darken($shadow-color, 10%);
+// $shadows: append($shadows,
+// 0 ($i * 1px) $shadow-color, comma);
+// }
+// color: $color;
+// text-shadow: append($shadows,
+// 0 ($depth * 1px) 10px black, comma);
+//}
+//h1 { @include text-3d(#eee, 4); }
 
-@mixin folded-corner($background, $size, $angle: 30deg) {
-
-position: relative;
-background: $background; /* Fallback */
-background: linear-gradient($angle - 180deg, transparent $size, $background 0);
-border-radius: .5em;
-
-$x: $size / sin($angle);
-$y: $size / cos($angle);
-
-&::before {
-	content: '';
-	position: absolute;
-	top: 0; right: 0;
-	background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.2) 0, rgba(0,0,0,.4)) 100% 0 no-repeat;
-	width: $y;
-	height: $x;
-	transform: translateY($y - $x) rotate(2*$angle - 90deg);
-  transform-origin: bottom right;
-	border-bottom-left-radius: inherit;
-	box-shadow: -.2em .2em .3em -.1em rgba(0,0,0,.15);
+@function text-retro($color: black, $depth: 8) {
+  $shadows: (1px 1px $color,);
+  @for $i from 2 through $depth {
+    $shadows: append($shadows,
+                    ($i*1px) ($i*1px) $color, comma);
+  }
+  @return $shadows;
 }
 
+h1 {
+  color: white;
+  background: hsl(0, 50%, 45%);
+  text-shadow: text-retro();
 }
-
-.note {
- 	position: relative;
- 	display: inline-block;
- 	vertical-align: top;
-	width: 15em;
- 	padding: 2em;
-  margin: 0 1rem;
-	color: white;
-	font: 100%/1.6 Baskerville, Palatino, serif;
-	border-radius: .5em;
-	@include folded-corner(#58a, 1.5em, 25deg);
-}
-
-.note + .note {
-  font-size: 130%;
- 	@include folded-corner(#655, 2em, 70deg);
-}
-
-.note:nth-child(3) {
-  width: 20em;
- 	@include folded-corner(yellowgreen, 1.8em, 45deg);
-}
-
-body {
-	/* Showcase that the effect supports any backdrop */
-	background: repeating-linear-gradient(-45deg, #ddd 0, #ddd 25%, white 0, white 50%) 0 / 6px 6px;
-	box-sizing: border-box;
-	padding: 1em;
-	height: 100vh;
-}
-//SCSS还没有原生支持三角函数。如果想正常使用三角函数，需要用到 Compass 框架（http://compass-style.org）或 其他库。借助泰勒展开式，还可
-//以自己写一套三角函数的实现。 另外，Stylus和LESS原生内置了三角函数。

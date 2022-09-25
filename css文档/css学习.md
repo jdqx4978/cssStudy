@@ -1707,3 +1707,572 @@ body {
 ```
 
 ![](\image\Snipaste_2022-09-25_01-35-39.png)
+
+
+
+## 3文字排印
+
+### 3.1连字符断行
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+<div>
+    “The only way to get rid of a temptation is to yield to it.”
+</div>
+</body>
+<style lang="css">
+    /*宽度 字体大小都会影响断字*/
+    div {
+        width: 10em;
+        font: 180%/1.4 Baskerville, serif;
+        text-align: justify;
+        hyphens: auto;
+    }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_11-45-34.png)
+
+### 3.2插入换行
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+
+<dl>
+    <dt>Name:</dt>
+    <dd>Lea Verou</dd>
+    <dt>Email:</dt>
+    <dd>lea@verou.me</dd>
+    <dd>lea@verou.me</dd>
+    <dt>Location:</dt>
+    <dd>Earth</dd>
+</dl>
+
+</body>
+<style lang="css">
+    /**
+     * Inserting line breaks
+     */
+
+    dt, dd {
+        display: inline;
+        margin: 0;
+    }
+
+    dd {
+        font-weight: 600;
+    }
+
+    dd + dt:before {
+        content: "\A";
+        white-space: pre;
+    }
+
+    dd + dd::before {
+        content: ', ';
+        font-weight: normal;
+        margin-left: -.25em;
+    }
+
+    body {
+        font: 150%/1.6 Baskerville, Palatino, serif;
+    }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_12-12-59.png)
+
+### 3.3文本行的斑马行
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+
+<pre><code>while (true) {
+	var d = new Date();
+	if (d.getDate()==1 &amp;&amp;
+	    d.getMonth()==3) {
+		alert("TROLOLOL");
+	}
+}</code></pre>
+</body>
+<style lang="css">
+pre{
+    /*因为加了内边距 所以要通过background-origin调整背景起始位置*/
+    /*前提就是我们处理的是代码段。在其他情况下，如果有行内元素把行框撑得比常规行高更大（比如有张图片或行内元素设置了更大的字号），则这个效果也会被破坏*/
+    padding: .5em;
+    line-height: 1.5;
+    font-family: Consolas, Monaco, monospace;
+    background: hsl(20, 50%, 95%) linear-gradient(rgba(120, 0, 0, .1) 50%, transparent 0);
+    background-size: auto 3em;
+    background-origin: content-box;
+}
+</style>
+</html>
+```
+
+![Snipaste_2022-09-25_13-03-57](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-25_13-03-57.png)
+
+### 3.4调整tab的宽度
+
+```htnl
+![Snipaste_2022-09-25_13-12-04](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-25_13-12-04.png)<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+
+<pre><code>// Default tab size
+while (true) {
+	var d = new Date();
+	if (d.getDate()==1 &amp;&amp;
+	    d.getMonth()==3) {
+		alert("TROLOLOL");
+	}
+}</code></pre>
+
+<pre><code>// tab-size: 2;
+while (true) {
+	var d = new Date();
+	if (d.getDate()==1 &amp;&amp;
+	    d.getMonth()==3) {
+		alert("TROLOLOL");
+	}
+}</code></pre>
+
+<pre><code>// tab-size: 4;
+while (true) {
+	var d = new Date();
+	if (d.getDate()==1 &amp;&amp;
+	    d.getMonth()==3) {
+		alert("TROLOLOL");
+	}
+}</code></pre>
+
+<pre><code>// tab-size: 0;
+while (true) {
+	var d = new Date();
+	if (d.getDate()==1 &amp;&amp;
+	    d.getMonth()==3) {
+		alert("TROLOLOL");
+	}
+}</code></pre>
+</body>
+<style lang="css">
+/**
+ * Adjusting tabs
+ */
+
+pre {
+	padding: .5em;
+	line-height: 1.5;
+	background: hsl(20, 50%, 95%);
+	font-family: Consolas, Monaco, monospace;
+}
+
+pre:nth-of-type(2) { tab-size: 2 }
+pre:nth-of-type(3) { tab-size: 4 }
+pre:nth-of-type(4) { tab-size: 0 }
+
+code {
+	font: inherit;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_13-12-04.png)
+
+### 3.5连字
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+
+Common ligatures: fi ff fl ffi ffl <br />
+Discretionary ligatures: st ct
+</body>
+<style lang="css">
+body {
+	font: 200%/1.6 "Adobe Caslon Pro", Baskerville, serif;
+	font-variant-ligatures: common-ligatures discretionary-ligatures historical-ligatures;
+}
+</style>
+</html>
+```
+
+tip：谷歌未支持、字体不支持或window系统不支持
+
+### 3.6华丽的 & 符号
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+<h1>HTML & CSS</h1>
+</body>
+<style lang="css">
+/**
+ * Fancy Ampersands
+ */
+
+@font-face {
+	font-family: Ampersand;
+	src: local('Baskerville-Italic'), local('GoudyOldStyleT-Italic'), local('Garamond-Italic'), local('Palatino-Italic');
+	unicode-range: U+26;
+}
+
+h1 {
+	font-family: Ampersand, Helvetica, sans-serif;
+}
+</style>
+</html>
+```
+
+tip：没有该字体或不支持
+
+### 3.7自定义下划线
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+<p>“The only way to <a>get rid of a temptation</a> is to <a>yield</a> to it.”</p>
+<p>“The only way to <a>get rid of a temptation</a> is to <a>yield</a> to it.”</p>
+<p>“The only way to <a class="wavy">get rrid of a temptatoin</a> is to <a class="wavy">yeild</a> to it.”</p>
+</body>
+<style lang="css">
+body{
+	font-size: 250%;
+}
+a {
+	background: linear-gradient(gray, gray) no-repeat;
+	background-size: 100% 1px;
+	background-position: 0 1.02em;
+	text-shadow: .05em 0 white, -.05em 0 white;
+}
+
+p:nth-child(2) a {
+	background: linear-gradient(90deg, gray 66%, transparent 0) repeat-x;
+	background-size: .2em 2px;
+	background-position: 0 1em;
+}
+/*波浪线*/
+.wavy {
+	background: linear-gradient(-45deg, transparent 40%, red 0, red 60%, transparent 0) 0 1em,
+	            linear-gradient(45deg, transparent 40%, red 0, red 60%, transparent 0) .1em 1em;
+	background-repeat: repeat-x;
+	background-size: .2em .1em;
+	text-shadow: .05em 0 white, -.05em 0 white;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_20-53-22.png)
+
+### 3.8现实中的字体效果
+
+#### 凸版印刷效果
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+<p>“The only way to get rid of a temptation is to yield to it.”</p>
+<p>“The only way to get rid of a temptation is to yield to it.”</p>
+</body>
+<style lang="css">
+body{
+	font-size: 250%;
+}
+p{
+    padding: .8em 1em;
+    background: hsl(210, 13%, 60%);
+    color:hsl(210, 13%, 30%);
+    text-shadow: 0 1px 1px hsla(0,0%,100%,.8);
+}
+p + p{
+    background: hsl(210,13%,30%);
+    color: hsl(210,13%,60%);
+    text-shadow:0 -1px 1px black;
+}
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_21-07-12.png)
+
+#### 空心字
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+<h1>CSS</h1>
+
+<h1>
+    <svg overflow="visible" width="2em" height="1.2em">
+        <use xlink:href="#css"/>
+        <text id="css" y="1em">CSS</text>
+    </svg>
+</h1>
+</body>
+<style lang="css">
+    body {
+        background: deeppink;
+        font-size: 250%;
+    }
+
+    h1 {
+        margin: 0;
+        color: white;
+    }
+
+    h1:nth-child(1) {
+        text-shadow: 1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
+    }
+
+    h1 text {
+        fill: currentColor
+    }
+
+    h1 use {
+        stroke: black;
+        stroke-width: 6;
+        stroke-linejoin: round;
+    }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_21-21-42.png)
+
+#### 文字外发光
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+<div>
+    <a href="http://csssecrets.io">Glow</a>
+</div>
+
+</body>
+<style lang="css">
+    /*a {*/
+    /*    color: #ffc;*/
+    /*    text-decoration: none;*/
+    /*    transition: 1s;*/
+    /*}*/
+
+    /*a:hover {*/
+    /*    text-shadow: 0 0 .1em, 0 0 .3em;*/
+    /*}*/
+
+    div {
+        font-size: 250%;
+        background: #203;
+    }
+    /*使用blur的好处就是浏览器不支持知会没效果，但text-shadow不支持，文字会不见*/
+    a {
+        background: #203;
+        text-decoration: none;
+        color: white;
+        transition: 1s;
+    }
+
+    a:hover {
+        filter: blur(.1em);
+    }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_21-32-12.png)
+
+#### 文字凸起效果
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+</head>
+<body>
+<div>CSS3d</div>
+
+</body>
+<style lang="css">
+div{
+    padding: 1em;
+    background: #58a;
+    color: white;
+	text-shadow: 0 1px hsl(0,0%,85%),
+	             0 2px hsl(0,0%,80%),
+	             0 3px hsl(0,0%,75%),
+	             0 4px hsl(0,0%,70%),
+	             0 5px hsl(0,0%,65%),
+                0 5px 10px black;
+    font-weight: bold;
+    font-size: 300%;
+}
+</style>
+</html>
+```
+
+```scss
+//@mixin text-3d($color: white, $depth: 5) {
+// $shadows: ();
+// $shadow-color: $color;
+// @for $i from 1 through $depth {
+// $shadow-color: darken($shadow-color, 10%);
+// $shadows: append($shadows,
+// 0 ($i * 1px) $shadow-color, comma);
+// }
+// color: $color;
+// text-shadow: append($shadows,
+// 0 ($depth * 1px) 10px black, comma);
+//}
+//h1 { @include text-3d(#eee, 4); }
+
+@function text-retro($color: black, $depth: 8) {
+  $shadows: (1px 1px $color,);
+  @for $i from 2 through $depth {
+    $shadows: append($shadows,
+                    ($i*1px) ($i*1px) $color, comma);
+  }
+  @return $shadows;
+}
+
+h1 {
+  color: white;
+  background: hsl(0, 50%, 45%);
+  text-shadow: text-retro();
+}
+```
+
+![](\image\Snipaste_2022-09-25_21-43-48.png)
+
+### 3.9环形文字
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+<!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<div class="circular">
+	circular reasoning works because
+</div>
+<script>
+    function $$(selector, context) {
+	context = context || document;
+	var elements = context.querySelectorAll(selector);
+	return Array.prototype.slice.call(elements);
+}
+
+$$('.circular').forEach(function(el) {
+	var NS = "http://www.w3.org/2000/svg";
+
+	var svg = document.createElementNS(NS, "svg");
+	svg.setAttribute("viewBox", "0 0 100 100");
+
+	var circle = document.createElementNS(NS, "path");
+	circle.setAttribute("d", "M0,50 a50,50 0 1,1 0,1z");
+	circle.setAttribute("id", "circle");
+
+	var text = document.createElementNS(NS, "text");
+	var textPath = document.createElementNS(NS, "textPath");
+	textPath.setAttributeNS("http://www.w3.org/1999/xlink", 'xlink:href', '#circle');
+	textPath.textContent = el.textContent;
+	text.appendChild(textPath);
+
+	svg.appendChild(circle);
+	svg.appendChild(text);
+
+	el.textContent = '';
+	el.appendChild(svg);
+});
+</script>
+</body>
+<style lang="css">
+    /**
+ * Text on a circle
+ */
+
+body {
+	font: bold 120% Helvetica, sans-serif;
+}
+
+.circular {
+	width: 30em;
+	height: 30em;
+	margin: 4em auto 0;
+}
+
+.circular svg {
+	display: block;
+	overflow: visible;
+	transition: 10s linear transform;
+}
+
+.circular svg:hover { transform: rotate(-2turn); }
+
+.circular text { fill: currentColor }
+.circular path { fill: none; }
+</style>
+</html>
+```
+
+![](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-25_22-01-58.png)

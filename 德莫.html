@@ -2,65 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>折角</title>
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
 </head>
-<body>
-<div class="demo">“The only way to get rid of a temptation is to yield to it.”
-— Oscar Wilde, The Picture of Dorian Gray</div>
-<div class="note">“The only way to get rid of a temptation is to yield to it.”
-— Oscar Wilde, The Picture of Dorian Gray</div>
+<body class="dimmed">
+<!--<div class="overlay"></div>-->
+<!--<div class="lightbox">sdffffffffffffffffffffffffff</div>-->
+<!--box-shadow方案-->
+<!--<img src="lingxing.png" class="lightbox"/>-->
+<!--<p>-->
+<!--    Bacon ipsum dolor amet consectetur short loin ut tri-tip alcatra ground round jowl beef meatloaf in pork.-->
+<!--    Elit chicken ea spare ribs. Shank andouille ex boudin picanha turkey esse. Do doner fugiat tongue.</p>-->
+<!--<p>-->
+<!--    Pork chop ad cow spare ribs capicola ball tip alcatra cillum magna short ribs tempor.-->
+<!--    Pork loin do sint magna ea pork belly duis. Shoulder ullamco chicken porchetta, ham anim veniam venison.-->
+<!--    Fugiat tenderloin venison, turducken non pork chop ribeye enim. Beef turkey salami, ipsum prosciutto commodo-->
+<!--    cupidatat.-->
+<!--    Tri-tip ham hock non brisket pig cupim commodo ball tip nulla turkey kielbasa corned beef flank. Hamburger pariatur-->
+<!--    ham,-->
+<!--    porchetta cupidatat sirloin pork loin quis nulla culpa tail esse.</p>-->
+<!--<p>Chuck filet mignon flank pork chop mollit enim veniam sed pork loin aliquip sausage prosciutto in deserunt.-->
+<!--    Nostrud porchetta non nulla sunt. Cupim et velit picanha laborum salami capicola exercitation alcatra sausage cillum-->
+<!--    shoulder minim esse.-->
+<!--    Pig boudin aliquip aute, tail ut cow incididunt short loin aliqua.</p>-->
+<!--<p>Et dolor occaecat dolore doner shoulder. Swine pancetta tri-tip irure turducken,-->
+<!--    kevin est meatball aliqua aute quis ham venison sunt. Consequat pancetta sint beef turkey.-->
+<!--    Fugiat occaecat commodo, short ribs corned beef aliquip elit eiusmod pork belly ut eu tri-tip.-->
+<!--    Sint aute picanha proident corned beef ad beef dolore landjaeger. Laboris est deserunt tempor,-->
+<!--    bresaola ham hock non brisket frankfurter ad leberkas aute sirloin. Minim et ribeye shank pork loin sint corned beef-->
+<!--    ball tip-->
+<!--    dolor.</p>-->
+<!--<p>Doner alcatra pastrami pig, strip steak eu in frankfurter occaecat in filet mignon chuck short loin nulla meatloaf.-->
+<!--    Adipisicing aliqua kielbasa nulla proident.-->
+<!--    Ground round meatloaf kevin, shank adipisicing pork frankfurter t-bone spare ribs cupidatat.-->
+<!--    Sed ham non duis enim, in ipsum fugiat est tongue short ribs ad bresaola prosciutto. Non minim picanha, ad in-->
+<!--    occaecat fugiat veniam dolor-->
+<!--    deserunt.</p>-->
 
-<!--多角度复用方案-->
-<!--在scss文件中-->
-<div class="note">“The only way to get rid of a temptation is to yield to it.”
-— Oscar Wilde, The Picture of Dorian Gray</div>
-<div class="note">“The only way to get rid of a temptation is to yield to it.”
-— Oscar Wilde, The Picture of Dorian Gray</div>
-<div class="note">“The only way to get rid of a temptation is to yield to it. Resist it, and your soul grows sick with longing for the things it has forbidden to itself, with desire for what its monstrous laws have made monstrous and unlawful.”
-— Oscar Wilde, The Picture of Dorian Gray</div>
+<!--dialog方案-->
+<button onclick="document.querySelector('#modal').showModal()">Click me</button>
+<dialog id="modal">
+    O HAI!
+    <button onclick="this.parentNode.close()">Close</button>
+</dialog>
 </body>
 <style lang="css">
-/*普通45度折角方案*/
-.demo {
-	width: 12em;
-	background: #58a; /* Fallback */
-	background:
-		linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.4) 0) 100% 0 no-repeat,
-		linear-gradient(-135deg, transparent 1.5em, #58a 0);
-	background-size: 2em 2em, auto;
+    /*增加html元素方案*/
+    /*.overlay { !* 用于遮挡背景 *!*/
+    /*    position: fixed;*/
+    /*    top: 0;*/
+    /*    right: 0;*/
+    /*    bottom: 0;*/
+    /*    left: 0;*/
+    /*    background: rgba(0, 0, 0, .5);*/
+    /*}*/
 
-	padding: 2em;
-	color: white;
-	font: 100%/1.6 Baskerville, Palatino, serif;
-}
-
-/**
- * Folded corner effect — at an angle
- */
-/*30度折角方案*/
-.note {
-	position: relative;
-	width: 12em;
-	background: #58a; /* Fallback */
-	background: linear-gradient(-150deg, transparent 1.5em, #58a 0);
-	padding: 2em;
-	color: white;
-	font: 100%/1.6 Baskerville, Palatino, serif;
-	border-radius: .5em;
-}
-
-.note::before {
-	content: '';
-	position: absolute;
-	top: 0; right: 0;
-	width: 1.73em; height: 3em;
-	background: linear-gradient(to left bottom, transparent 50%, rgba(0,0,0,.2) 0, rgba(0,0,0,.4)) 100% 0 no-repeat;
-	transform: translateY(-1.3em) rotate(-30deg);
-	transform-origin: bottom right;
-	border-bottom-left-radius: .5em;
-	box-shadow: -.2em .2em .3em -.1em rgba(0,0,0,.15)
-}
-/*多角度复用方案*/
-/*在scss文件中*/
+    /*.lightbox { !* 需要吸引用户注意的元素 *!*/
+    /*    position: absolute;*/
+    /*    z-index: 1;*/
+    /*    !* [其余样式] *!*/
+    /*}*/
+    /*box-shadow方案*/
+    /*.lightbox {*/
+    /*    position: fixed;*/
+    /*    top: 50%;*/
+    /*    left: 50%;*/
+    /*    margin: -200px;*/
+    /*    box-shadow: 0 0 0 50vmax rgba(0, 0, 0, .8);*/
+    /*}*/
+    dialog::backdrop {
+        background: rgba(0, 0, 0, .8)
+    }
+    /*伪元素方案*/
+    /*移植性不好，chrome不支持*/
 </style>
 </html>
