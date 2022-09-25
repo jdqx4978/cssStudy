@@ -1,4 +1,4 @@
-# css学习
+css学习
 
 ## 1背景
 
@@ -2209,70 +2209,385 @@ h1 {
 <head>
     <meta charset="UTF-8">
     <title>字符</title>
-<!--    <link rel="stylesheet" href="demo1.css">-->
+    <!--    <link rel="stylesheet" href="demo1.css">-->
 </head>
 <body>
 <div class="circular">
-	circular reasoning works because
+    <svg viewBox="0 0 100 100">
+        <path d="M 0,50 a 50,50 0 1,1 0,1 z"
+              id="circle"/>
+        <text>
+            <textPath xlink:href="#circle">
+                circular reasoning works because
+            </textPath>
+        </text>
+    </svg>
 </div>
+<!--<div class="circular">-->
+<!--    circular reasoning works because-->
+<!--</div>-->
 <script>
-    function $$(selector, context) {
-	context = context || document;
-	var elements = context.querySelectorAll(selector);
-	return Array.prototype.slice.call(elements);
-}
-
-$$('.circular').forEach(function(el) {
-	var NS = "http://www.w3.org/2000/svg";
-
-	var svg = document.createElementNS(NS, "svg");
-	svg.setAttribute("viewBox", "0 0 100 100");
-
-	var circle = document.createElementNS(NS, "path");
-	circle.setAttribute("d", "M0,50 a50,50 0 1,1 0,1z");
-	circle.setAttribute("id", "circle");
-
-	var text = document.createElementNS(NS, "text");
-	var textPath = document.createElementNS(NS, "textPath");
-	textPath.setAttributeNS("http://www.w3.org/1999/xlink", 'xlink:href', '#circle');
-	textPath.textContent = el.textContent;
-	text.appendChild(textPath);
-
-	svg.appendChild(circle);
-	svg.appendChild(text);
-
-	el.textContent = '';
-	el.appendChild(svg);
-});
+    // function $$(selector, context) {
+    //     context = context || document;
+    //     var elements = context.querySelectorAll(selector);
+    //     return Array.prototype.slice.call(elements);
+    // }
+    //
+    // $$('.circular').forEach(function (el) {
+    //     var NS = "http://www.w3.org/2000/svg";
+    //
+    //     var svg = document.createElementNS(NS, "svg");
+    //     svg.setAttribute("viewBox", "0 0 100 100");
+    //
+    //     var circle = document.createElementNS(NS, "path");
+    //     circle.setAttribute("d", "M0,50 a50,50 0 1,1 0,1z");
+    //     circle.setAttribute("id", "circle");
+    //
+    //     var text = document.createElementNS(NS, "text");
+    //     var textPath = document.createElementNS(NS, "textPath");
+    //     textPath.setAttributeNS("http://www.w3.org/1999/xlink", 'xlink:href', '#circle');
+    //     textPath.textContent = el.textContent;
+    //     text.appendChild(textPath);
+    //
+    //     svg.appendChild(circle);
+    //     svg.appendChild(text);
+    //
+    //     el.textContent = '';
+    //     el.appendChild(svg);
+    // });
 </script>
 </body>
 <style lang="css">
-    /**
- * Text on a circle
- */
+    /*基础方案*/
+    .circular {
+        width: 20em;
+        height: 20em;
+        margin: 3em auto 0;
+        font-size: 120%;
+    }
 
-body {
-	font: bold 120% Helvetica, sans-serif;
-}
+    .circular svg {
+        display: block;
+        overflow: visible;
+    }
 
-.circular {
-	width: 30em;
-	height: 30em;
-	margin: 4em auto 0;
-}
+    .circular path {
+        fill: none;
+    }
 
-.circular svg {
-	display: block;
-	overflow: visible;
-	transition: 10s linear transform;
-}
+    /*复用方案*/
+    /*body {*/
+    /*    font: bold 120% Helvetica, sans-serif;*/
+    /*}*/
 
-.circular svg:hover { transform: rotate(-2turn); }
+    /*.circular {*/
+    /*    width: 30em;*/
+    /*    height: 30em;*/
+    /*    margin: 4em auto 0;*/
+    /*}*/
 
-.circular text { fill: currentColor }
-.circular path { fill: none; }
+    /*.circular svg {*/
+    /*    display: block;*/
+    /*    overflow: visible;*/
+    /*    transition: 10s linear transform;*/
+    /*}*/
+
+    /*.circular svg:hover {*/
+    /*    transform: rotate(-2turn);*/
+    /*}*/
+
+    /*.circular text {*/
+    /*    fill: currentColor*/
+    /*}*/
+
+    /*.circular path {*/
+    /*    fill: none;*/
+    /*}*/
 </style>
 </html>
 ```
 
 ![](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-25_22-01-58.png)
+
+## 4用户体验
+
+### 4.1选用合适的鼠标光标
+
+![](\image\Snipaste_2022-09-25_22-13-27.png)
+
+![](\image\Snipaste_2022-09-25_22-16-15.png)
+
+tip：这是mac系统的图标
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<button disabled>Disabled button</button>
+</body>
+<style lang="css">
+    /*禁用*/
+    :disabled, [disabled], [aria-disabled="true"] {
+        cursor: not-allowed;
+    }
+    /*看视频时隐藏光标*/
+    video {
+        cursor: url('transparent.gif');
+        cursor: none;
+    }
+</style>
+</html>
+```
+
+### 4.2扩大可点击区域
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<button>+</button>
+</body>
+<style lang="css">
+    /*对于触摸屏或者比较小的按钮可以增加它的可点击区域*/
+    /*基于边框的方案*/
+    button {
+        padding: .3em .5em;
+        border: 10px solid transparent;
+        border-radius: 50%;
+        background: #58a;
+        background-clip: padding-box;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .3) inset;
+        color: white;
+        font: bold 150%/1 sans-serif;
+        cursor: pointer;
+    }
+
+    /*基于伪元素的方案*/
+    button {
+        position: relative;
+        padding: .3em .5em;
+        background: #58a;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, .3);
+        box-shadow: 0 .1em .2em -.05em rgba(0, 0, 0, .5);
+        color: white;
+        font: bold 150%/1 sans-serif;
+        cursor: pointer;
+    }
+
+    button:before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        bottom: -10px;
+        left: -10px;
+    }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_22-42-53.png)
+
+### 4.3自定义复选框
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<input type="checkbox" id="awesome"/>
+<label for="awesome">Awesome!</label>
+</body>
+<style lang="css">
+    input[type="checkbox"] + label::before {
+        content: '\a0';
+        display: inline-block;
+        vertical-align: .2em;
+        width: .8em;
+        height: .8em;
+        margin-right: .2em;
+        border-radius: .2em;
+        background: silver;
+        text-indent: .15em;
+        line-height: .65;
+    }
+
+    input[type="checkbox"]:checked + label::before {
+        content: '\2713';
+        background: yellowgreen;
+    }
+
+    input[type="checkbox"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+
+    input[type="checkbox"]:focus + label::before {
+        box-shadow: 0 0 .1em .1em #58a;
+    }
+
+    input[type="checkbox"]:disabled + label::before {
+        background: gray;
+        box-shadow: none;
+        color: #555;
+    }
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_23-02-58.png)
+
+### 4.4开关式按钮
+
+```html
+![Snipaste_2022-09-25_23-06-59](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-25_23-06-59.png)<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<input type="checkbox" id="awesome" autofocus />
+<label for="awesome">Awesome!</label>
+
+<input type="checkbox" id="awesome2" checked />
+<label for="awesome2">Awesome!</label>
+</body>
+<style lang="css">
+
+
+input[type="checkbox"] {
+	position: absolute;
+	clip: rect(0,0,0,0);
+}
+
+input[type="checkbox"] + label {
+	display: inline-block;
+	padding: .35em .5em .2em;
+	background: #ccc;
+	background-image: linear-gradient(#ddd, #bbb);
+	border: 1px solid rgba(0,0,0,.2);
+	border-radius: .3em;
+	box-shadow: 0 1px white inset;
+	text-align: center;
+	text-shadow: 0 1px 1px white;
+	cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label,
+input[type="checkbox"]:active + label {
+	box-shadow: .04em .1em .2em rgba(0,0,0,.6) inset;
+	border-color: rgba(0,0,0,.3);
+	background: #bbb;
+}
+
+body {	font: 150%/1.6 sans-serif; }
+</style>
+</html>
+```
+
+![Snipaste_2022-09-25_23-06-59](\image\Snipaste_2022-09-25_23-06-59.png)
+
+### 4.5通过阴影弱化背景-遮罩层
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body class="dimmed">
+<!--<div class="overlay"></div>-->
+<!--<div class="lightbox">sdffffffffffffffffffffffffff</div>-->
+<!--box-shadow方案-->
+<!--<img src="lingxing.png" class="lightbox"/>-->
+<!--<p>-->
+<!--    Bacon ipsum dolor amet consectetur short loin ut tri-tip alcatra ground round jowl beef meatloaf in pork.-->
+<!--    Elit chicken ea spare ribs. Shank andouille ex boudin picanha turkey esse. Do doner fugiat tongue.</p>-->
+<!--<p>-->
+<!--    Pork chop ad cow spare ribs capicola ball tip alcatra cillum magna short ribs tempor.-->
+<!--    Pork loin do sint magna ea pork belly duis. Shoulder ullamco chicken porchetta, ham anim veniam venison.-->
+<!--    Fugiat tenderloin venison, turducken non pork chop ribeye enim. Beef turkey salami, ipsum prosciutto commodo-->
+<!--    cupidatat.-->
+<!--    Tri-tip ham hock non brisket pig cupim commodo ball tip nulla turkey kielbasa corned beef flank. Hamburger pariatur-->
+<!--    ham,-->
+<!--    porchetta cupidatat sirloin pork loin quis nulla culpa tail esse.</p>-->
+<!--<p>Chuck filet mignon flank pork chop mollit enim veniam sed pork loin aliquip sausage prosciutto in deserunt.-->
+<!--    Nostrud porchetta non nulla sunt. Cupim et velit picanha laborum salami capicola exercitation alcatra sausage cillum-->
+<!--    shoulder minim esse.-->
+<!--    Pig boudin aliquip aute, tail ut cow incididunt short loin aliqua.</p>-->
+<!--<p>Et dolor occaecat dolore doner shoulder. Swine pancetta tri-tip irure turducken,-->
+<!--    kevin est meatball aliqua aute quis ham venison sunt. Consequat pancetta sint beef turkey.-->
+<!--    Fugiat occaecat commodo, short ribs corned beef aliquip elit eiusmod pork belly ut eu tri-tip.-->
+<!--    Sint aute picanha proident corned beef ad beef dolore landjaeger. Laboris est deserunt tempor,-->
+<!--    bresaola ham hock non brisket frankfurter ad leberkas aute sirloin. Minim et ribeye shank pork loin sint corned beef-->
+<!--    ball tip-->
+<!--    dolor.</p>-->
+<!--<p>Doner alcatra pastrami pig, strip steak eu in frankfurter occaecat in filet mignon chuck short loin nulla meatloaf.-->
+<!--    Adipisicing aliqua kielbasa nulla proident.-->
+<!--    Ground round meatloaf kevin, shank adipisicing pork frankfurter t-bone spare ribs cupidatat.-->
+<!--    Sed ham non duis enim, in ipsum fugiat est tongue short ribs ad bresaola prosciutto. Non minim picanha, ad in-->
+<!--    occaecat fugiat veniam dolor-->
+<!--    deserunt.</p>-->
+
+<!--dialog方案-->
+<button onclick="document.querySelector('#modal').showModal()">Click me</button>
+<dialog id="modal">
+    O HAI!
+    <button onclick="this.parentNode.close()">Close</button>
+</dialog>
+</body>
+<style lang="css">
+    /*增加html元素方案*/
+    /*.overlay { !* 用于遮挡背景 *!*/
+    /*    position: fixed;*/
+    /*    top: 0;*/
+    /*    right: 0;*/
+    /*    bottom: 0;*/
+    /*    left: 0;*/
+    /*    background: rgba(0, 0, 0, .5);*/
+    /*}*/
+
+    /*.lightbox { !* 需要吸引用户注意的元素 *!*/
+    /*    position: absolute;*/
+    /*    z-index: 1;*/
+    /*    !* [其余样式] *!*/
+    /*}*/
+    /*box-shadow方案*/
+    /*.lightbox {*/
+    /*    position: fixed;*/
+    /*    top: 50%;*/
+    /*    left: 50%;*/
+    /*    margin: -200px;*/
+    /*    box-shadow: 0 0 0 50vmax rgba(0, 0, 0, .8);*/
+    /*}*/
+    dialog::backdrop {
+        background: rgba(0, 0, 0, .8)
+    }
+    /*伪元素方案*/
+    /*移植性不好，chrome不支持*/
+</style>
+</html>
+```
+
+![](\image\Snipaste_2022-09-25_23-26-51.png)
+
+4.6通过模糊弱化背景
