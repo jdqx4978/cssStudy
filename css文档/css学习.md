@@ -1500,7 +1500,7 @@ img:focus {
 </html>
 ```
 
-![](\image\Snipaste_2022-09-24_16-04-41.png)
+![](.\image\Snipaste_2022-09-24_16-04-41.png)
 
 #### 一般方法
 
@@ -1835,7 +1835,7 @@ pre{
 ### 3.4调整tab的宽度
 
 ```htnl
-![Snipaste_2022-09-25_13-12-04](C:\Users\Administrator\Desktop\cssbiji\cssStudy\css文档\image\Snipaste_2022-09-25_13-12-04.png)<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -2590,4 +2590,498 @@ body {	font: 150%/1.6 sans-serif; }
 
 ![](\image\Snipaste_2022-09-25_23-26-51.png)
 
-4.6通过模糊弱化背景
+### 4.6通过模糊弱化背景
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<dialog>O HAI, I’m a dialog. Click on me to dismiss.</dialog>
+<main>
+    <button>Show dialog</button>
+    <p>
+        Bacon ipsum dolor amet consectetur short loin ut tri-tip alcatra ground round jowl beef meatloaf in pork.
+        Elit chicken ea spare ribs. Shank andouille ex boudin picanha turkey esse. Do doner fugiat tongue.</p>
+    <p>
+        Pork chop ad cow spare ribs capicola ball tip alcatra cillum magna short ribs tempor.
+        Pork loin do sint magna ea pork belly duis. Shoulder ullamco chicken porchetta, ham anim veniam venison.
+        Fugiat tenderloin venison, turducken non pork chop ribeye enim. Beef turkey salami, ipsum prosciutto commodo
+        cupidatat.
+        Tri-tip ham hock non brisket pig cupim commodo ball tip nulla turkey kielbasa corned beef flank. Hamburger
+        pariatur
+        ham,
+        porchetta cupidatat sirloin pork loin quis nulla culpa tail esse.</p>
+    <p>Chuck filet mignon flank pork chop mollit enim veniam sed pork loin aliquip sausage prosciutto in deserunt.
+        Nostrud porchetta non nulla sunt. Cupim et velit picanha laborum salami capicola exercitation alcatra sausage
+        cillum
+        shoulder minim esse.
+        Pig boudin aliquip aute, tail ut cow incididunt short loin aliqua.</p>
+    <p>Et dolor occaecat dolore doner shoulder. Swine pancetta tri-tip irure turducken,
+        kevin est meatball aliqua aute quis ham venison sunt. Consequat pancetta sint beef turkey.
+        Fugiat occaecat commodo, short ribs corned beef aliquip elit eiusmod pork belly ut eu tri-tip.
+        Sint aute picanha proident corned beef ad beef dolore landjaeger. Laboris est deserunt tempor,
+        bresaola ham hock non brisket frankfurter ad leberkas aute sirloin. Minim et ribeye shank pork loin sint corned
+        beef
+        ball tip
+        dolor.</p>
+    <p>Doner alcatra pastrami pig, strip steak eu in frankfurter occaecat in filet mignon chuck short loin nulla
+        meatloaf.
+        Adipisicing aliqua kielbasa nulla proident.
+        Ground round meatloaf kevin, shank adipisicing pork frankfurter t-bone spare ribs cupidatat.
+        Sed ham non duis enim, in ipsum fugiat est tongue short ribs ad bresaola prosciutto. Non minim picanha, ad in
+        occaecat fugiat veniam dolor
+        deserunt.</p>
+</main>
+<script>
+    function $(sel) {
+        return document.querySelector(sel);
+    }
+
+    var dialog = $('dialog');
+    var main = $('main');
+
+    $('button').onclick = function () {
+
+        dialog.setAttribute('open', '');
+
+        main.classList.add('de-emphasized');
+    }
+
+    dialog.onclick = function () {
+        if (dialog.close) {
+            dialog.close();
+        } else {
+            dialog.removeAttribute('open');
+        }
+
+        main.classList.remove('de-emphasized');
+    }
+</script>
+</body>
+<style lang="css">
+/**
+ * De-emphasizing by blurring (AND dimming)
+ */
+
+main {
+	transition: .6s;
+	background: white;
+}
+
+main.de-emphasized {
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
+}
+
+dialog {
+	position: fixed;
+	top: 50%; left: 50%;
+	z-index: 1;
+	width: 10em;
+	padding: 2em;
+	margin: -5em;
+	border: 1px solid silver;
+	border-radius: .5em;
+	box-shadow: 0 .2em .5em rgba(0,0,0,.5),
+	            0 0 0 100vmax rgba(0,0,0,.2);
+}
+
+dialog:not([open]) {
+	display: none;
+}
+
+body {
+	font: 150%/1.6 Baskerville, Palatino, serif;
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-09-26_22-03-33.png)
+
+### 4.7滚动提示
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<!-- Geeky cat names! -->
+<ul>
+	<li>Ada Catlace</li>
+	<li>Alan Purring</li>
+	<li>Schrödingcat</li>
+	<li>Tim Purrners-Lee</li>
+	<li>Webkitty</li>
+	<li>Json</li>
+	<li>Void</li>
+	<li>Neko</li>
+	<li>NaN</li>
+	<li>Cat5</li>
+	<li>Vector</li>
+</ul>
+</body>
+<style lang="css">
+/**
+ * Scrolling hints
+ */
+
+ul {
+	display: inline-block;
+	overflow: auto;
+	width: 7.2em;
+	height: 7em;
+	border: 1px solid silver;
+	padding: .3em .5em;
+	list-style: none;
+	font: 100 200%/1.6 'Frutiger LT Std', sans-serif;
+	background: linear-gradient(white 15px, hsla(0,0%,100%,0)) 0 0 / 100% 50px,
+	            radial-gradient(at top, rgba(0,0,0,.2), transparent 70%) 0 0 / 100% 15px,
+	            linear-gradient(to top, white 15px, hsla(0,0%,100%,0)) bottom / 100% 50px,
+	            radial-gradient(at bottom, rgba(0,0,0,.2), transparent 70%) bottom / 100% 15px;
+	background-repeat: no-repeat;
+	background-attachment: local, scroll, local, scroll;
+	margin-top: 30px;
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-09-26_22-04-33.png)
+
+### 4.8交互式的图片对比控件
+
+#### css方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<div class="image-slider">
+ <div>
+ <img src="lingxing.png" alt="Before" />
+ </div>
+ <img src="lingxing1.png" alt="After" />
+</div>
+</body>
+<style lang="css">
+/**
+ * Interactive image comparison - with CSS resize
+ */
+
+.image-slider {
+	position:relative;
+	display: inline-block;
+}
+
+.image-slider > div {
+	position: absolute;
+	top: 0; bottom: 0; left: 0;
+	width: 50%;
+	max-width: 100%;
+	overflow: hidden;
+	resize: horizontal;
+}
+
+.image-slider > div:before {
+	content: '';
+	position: absolute;
+	right: 0; bottom: 0;
+	width: 12px; height: 12px;
+	padding: 5px;
+	background: linear-gradient(-45deg, white 50%, transparent 0);
+	background-clip: content-box;
+	cursor: ew-resize;
+	-webkit-filter: drop-shadow(0 0 2px black);
+	filter: drop-shadow(0 0 2px black);
+}
+
+.image-slider img {
+	display: block;
+	user-select: none;
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-09-26_22-34-25.png)
+
+#### javascript方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+
+<div class="image-slider">
+    <div>
+        <img src="lingxing.png" alt="Before"/>
+    </div>
+    <img src="lingxing1.png" alt="After"/>
+</div>
+<script>
+    function $$(selector, context) {
+        context = context || document;
+        var elements = context.querySelectorAll(selector);
+        return Array.prototype.slice.call(elements);
+    }
+
+    $$('.image-slider').forEach(function (slider) {
+        // 创建附加的div元素，并用它包住第一个图片元素
+        // 案例给的代码会报错，先用拿到div取代创建
+        var div = document.querySelector('.image-slider').querySelector('div');
+        // 创建滑块
+        var range = document.createElement('input');
+        range.type = 'range';
+        range.oninput = function () {
+            div.style.width = this.value + '%';
+        };
+        slider.appendChild(range);
+    });
+</script>
+</body>
+<style lang="css">
+    .image-slider {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-slider > div {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        max-width: 100%;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .image-slider img {
+        display: block;
+        user-select: none;
+    }
+
+    .image-slider input {
+        position: absolute;
+        left: 0;
+        bottom: 10px;
+        margin: 0;
+        filter: contrast(.5);
+        mix-blend-mode: luminosity;
+        width: 50%;
+        transform: scale(2);
+        transform-origin: left bottom;
+    }
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-09-26_22-56-59.png)
+
+
+
+## 5结构与布局
+
+### 5.1自适应内部元素
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+
+<p>Let’s assume we have some text here. Bacon ipsum dolor sit amet turkey veniam shankle, culpa short ribs kevin t-bone
+    occaecat.</p>
+<figure>
+    <img src="lingxing.png"/>
+    <figcaption>
+        The great Sir Adam Catlace was named after Countess Ada Lovelace, the first programmer ever.
+    </figcaption>
+</figure>
+<p>We also have some more text here. Et laborum venison nostrud, ut veniam sint kielbasa ullamco pancetta.</p>
+</body>
+<style lang="css">
+    /**
+     * Intrinsic sizing
+     */
+
+    figure {
+        max-width: 300px;
+        max-width: min-content;
+        margin: auto;
+    }
+
+    figure > img {
+        max-width: inherit
+    }
+
+    /* Basic styling */
+
+    figure {
+        padding: 10px;
+        border: 1px solid silver;
+    }
+</style>
+</html>
+```
+
+### 5.2精确控制表格列宽
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<section>
+    <h1>With table-layout: auto</h1>
+    <div>
+        <table>
+            <tr>
+                <td>如果我们不……</td>
+                <td>指定单元格的宽度，则这些单元格就会根据它们内容的长
+                    短来分配宽度。也就是说，内容较长的单元格所能分配到
+                    的宽度也较多
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>如果我们不……</td>
+                <td>指定单元格的宽度，则这些单元格就会根据
+                    它们内容的长短来分配宽度。也就是说，内
+                    容较长的单元格所能分配到的宽度也较多
+                </td>
+            </tr>
+            <tr>
+                <td>表格的每一行都会参与到列
+                    宽的计算中，而不仅是第一
+                    行
+                </td>
+                <td>注意，这个表格的列宽分配结果跟上面那个
+                    表格不同
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td style="width: 1000px">即使我们为单元格指定了
+                    宽度，也未必会得到对应
+                    的结果。比如这个单元格
+                    的宽度被指定为
+                    <code>1000px</code>…
+                </td>
+                <td style="width: 2000px">.由于
+                    外层容器所能提供的空间远远不足<code>3000px</code>，
+                    这两个单元格的宽度会按比例缩小，分别得
+                    到总宽度的 33.3% 和 66.6%
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>如果我们禁
+                    止文本折行
+                    行为，那么
+                    表格宽度可
+                    能会远远超
+                    出其容器的
+                    宽度
+                </td>
+                <td class="preformatted">且 <code>text-overflow: ellipsis</code> 对此也无能为力，这一点很遗憾</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>大图片或代
+                    码块也可能
+                    会导致同样
+                    的问题
+                </td>
+                <td><img src="haijing.png"/></td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section>
+    <h1>With table-layout: fixed</h1>
+    <div></div>
+</section>
+<script>
+    document.querySelector('section + section div').innerHTML = document.querySelector('section:first-of-type div').innerHTML;
+</script>
+</body>
+<style lang="css">
+    /**
+     * Taming table column widths
+     */
+
+    body {
+        background: #ddd
+    }
+
+    section {
+        width: 500px;
+        margin: 2em;
+        background: white;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+    }
+
+    section + section table {
+        table-layout: fixed
+    }
+
+    td {
+        border: 1px solid #aaa;
+    }
+
+    td.preformatted {
+        white-space: pre;
+        font-family: Consolas, Monaco, monospace;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>
+</html>
+```
+
+<img src=".\image\Snipaste_2022-09-26_23-13-46.png" style="zoom:50%;" />
+
+### 5.3根据兄弟元素的数量来设置样式
