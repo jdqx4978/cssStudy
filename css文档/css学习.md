@@ -3085,3 +3085,627 @@ ul {
 <img src=".\image\Snipaste_2022-09-26_23-13-46.png" style="zoom:50%;" />
 
 ### 5.3根据兄弟元素的数量来设置样式
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<ul class="palette">
+    <li>
+        <div class="color-options">
+            <a class="add" href="#">Add</a>
+            <a class="delete" href="#">Delete</a>
+        </div>
+    </li>
+</ul>
+<script>
+    function $$(expr, con) {
+        return [].slice.call((con || document).querySelectorAll(expr));
+    }
+
+    var colors = [
+            '#D6E055', // Agave
+            '#082323', '#E6E2AF', '#A7A37E', '#EFECCA', '#046380', // Sandy stone beach
+            '#1C171D', '#FEE169', '#CDD452', '#F9722E', '#C9313D', // Sushi Maki
+            '#2E95A3', '#50B8B4', '#C6FFFA', '#E2FFA8'  // Agave
+        ],
+        palette = document.querySelector('.palette'),
+        template = palette.firstElementChild;
+
+    function addColor(template) {
+        var li = template.cloneNode(true);
+        var color = colors.pop();
+        colors.unshift(color);
+        li.style.background = color;
+        palette.insertBefore(li, template.nextSibling);
+    }
+
+    palette.onclick = function (evt) {
+        var button = evt.target;
+
+        if (button.className == 'add') {
+            addColor(button.parentNode.parentNode);
+        } else if (button.className == 'delete') {
+            var li = button.parentNode.parentNode;
+            li.parentNode.removeChild(li);
+        }
+    }
+</script>
+</body>
+<style lang="css">
+    /**
+     * Styling by sibling count: Color palette example
+     */
+
+    /* Hide "color" 4 items or more */
+    .palette li:first-child:nth-last-child(n+4) .color-options a:after,
+    .palette li:first-child:nth-last-child(n+4) ~ li .color-options a:after {
+        content: none;
+    }
+
+    /* Hide word when 6 items or more */
+    .palette li:first-child:nth-last-child(n+6) .color-options a,
+    .palette li:first-child:nth-last-child(n+6) ~ li .color-options a {
+        color: transparent;
+        font-size: 0;
+    }
+
+    .palette li:only-child .delete {
+        display: none;
+    }
+
+    /* From this point it’s just styling */
+    .palette {
+        display: flex;
+        height: 200px;
+        max-width: 900px;
+        font: bold 90%/1 sans-serif;
+    }
+
+    .palette li {
+        flex: 1;
+        list-style: none;
+        background: #D6E055;
+    }
+
+    .color-options {
+        background: rgba(0, 0, 0, .5);
+        padding: 10px;
+        margin: 0 10px;
+        overflow: hidden;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .color-options .add {
+        float: left;
+    }
+
+    .color-options .delete {
+        float: right;
+    }
+
+    .color-options a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .color-options a:before {
+        display: inline-block;
+        font-size: 1rem;
+        width: 1.3rem;
+        margin-right: .3rem;
+        text-align: center;
+        line-height: 1.3;
+        background: white;
+        border-radius: 50%;
+        letter-spacing: normal;
+    }
+
+    .color-options .add:before {
+        content: '✚';
+        color: #590;
+    }
+
+    .color-options .delete:before {
+        content: '✖';
+        color: #b00;
+    }
+
+    .color-options a:after {
+        content: ' color';
+        font-weight: normal;
+    }
+</style>
+</html>
+```
+
+![Snipaste_2022-10-09_21-38-05](.\image\Snipaste_2022-10-09_21-38-05.png)
+
+### 5.4满幅的背景，定宽的内容
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<header>
+	<h1>Fluid background, <br />fixed content</h1>
+</header>
+<section>
+	<h1>Heading</h1>
+	<p>Bacon ipsum dolor amet voluptate et shoulder, ipsum flank tongue exercitation commodo sed beef ribs drumstick in venison laborum. Laboris ut enim id drumstick, et aute esse. Consequat ad kielbasa anim pork loin turkey qui cupidatat drumstick doner labore. Nulla sirloin jerky do sed magna meatloaf. Ribeye ea ut elit leberkas laboris sausage corned beef drumstick cillum non.</p>
+</section>
+<section>
+	<h1>Another heading</h1>
+	<p>Nostrud landjaeger cillum beef cow tail cupidatat non mollit voluptate jowl. Enim sunt in, flank hamburger proident qui. Id aute excepteur chuck magna tempor ipsum pork chop t-bone. Frankfurter meatball pork loin beef et leberkas pork. Pig ball tip pancetta in.</p>
+	<p>Ribeye in veniam ipsum flank. Elit incididunt t-bone proident meatball. Porchetta exercitation prosciutto sausage chuck ut eu brisket shank pastrami turkey sunt laboris tenderloin anim. Landjaeger do venison laboris kevin.</p>
+</section>
+<footer>
+	<p>&copy; 2015 Lea Verou (j/k, feel free to use wherever)</p>
+	<p>Consectetur et t-bone pork loin. Tri-tip cupim in, spare ribs velit exercitation in. Tempor cillum fugiat, nisi leberkas reprehenderit anim laboris proident cow. Eu fatback kevin sint, ad shoulder in venison picanha. Sausage drumstick capicola, culpa boudin pork belly minim aute ipsum biltong picanha venison nulla adipisicing.</p>
+</footer>
+</body>
+<style lang="css">
+/**
+ * Fluid background, fixed content
+ */
+
+header, section, footer {
+	padding: 1em calc(50% - 350px);
+}
+
+footer {
+	background: #333;
+	color: white;
+}
+
+header {
+	background: orange;
+	color: white;
+}
+
+section + section {
+	background: #eee;
+}
+
+body {
+	margin: 0;
+	font: 100%/1.5 sans-serif;
+}
+</style>
+</html>
+```
+
+<img src=".\image\Snipaste_2022-10-09_21-46-41.png" style="zoom:50%;" />
+
+### 5.5垂直居中
+
+#### 基于绝对定位的解决方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<main>
+	<h1>Am I centered yet?</h1>
+	<p>Center me, please!</p>
+</main>
+</body>
+<style lang="css">
+main {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	padding: 1em 1.5em;
+	box-sizing: border-box;
+	background: #655;
+	color: white;
+	text-align: center;
+}
+
+h1 {
+	margin: 0 0 .2em;
+	font-size: 150%;
+}
+
+p {
+	margin: 0;
+}
+
+body {
+	background: #fb3;
+	font: 100%/1.5 sans-serif;
+}
+</style>
+</html>
+```
+
+#### 基于视口单位的解决方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<main>
+	<h1>Am I centered yet?</h1>
+	<p>Center me, please!</p>
+</main>
+</body>
+<style lang="css">
+/**
+ * Vertical centering - Viewport unit method
+ */
+/*这个技巧的实用性是*/
+/*相当有限的，因为它只适用于在视口中居中的场景。*/
+main {
+	width: 18em;
+	padding: 1em 1.5em;
+	margin: 50vh auto 0;
+	transform: translateY(-50%);
+	box-sizing: border-box;
+	background: #655;
+	color: white;
+	text-align: center;
+}
+
+h1 {
+	margin: 0 0 .2em;
+	font-size: 150%;
+}
+
+p {
+	margin: 0;
+}
+
+body {
+	background: #fb3;
+	font: 100%/1.5 sans-serif;
+}
+</style>
+</html>
+```
+
+#### 基于 Flexbox 的解决方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<main>
+	<h1>Am I centered yet?</h1>
+	<p>Center me, please!</p>
+</main>
+</body>
+<style lang="css">
+/**
+ * Vertical centering - Flexbox solution
+ */
+
+* { margin: 0 }
+
+body {
+	display: flex;
+	min-height: 100vh;
+}
+
+main {
+	padding: 1em 2em;
+	margin: auto;
+	box-sizing: border-box;
+	background: #655;
+	color: white;
+	text-align: center;
+}
+
+h1 {
+	margin-bottom: .2em;
+	font-size: 150%;
+}
+
+body {
+	background: #fb3;
+	font: 100%/1.5 sans-serif;
+}
+</style>
+</html>
+```
+
+### 5.6紧贴底部的页脚
+
+#### 更灵活的解决方案
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<header>
+	<h1>Site name</h1>
+</header>
+<main>
+	<input type="checkbox" id="contents" /><label for="contents">Toggle contents</label>
+	<p>Bacon ipsum dolor sit amet turkey veniam shankle, culpa short ribs kevin t-bone occaecat. Et laborum venison nostrud, ut veniam sint kielbasa ullamco pancetta. Qui drumstick tail, bacon leberkas shoulder capicola laborum. Minim ipsum bacon, mollit laboris t-bone pariatur. Ham hock reprehenderit sint beef, sausage pig eiusmod t-bone shankle strip steak.</p>
+	<p>Cow enim excepteur, boudin dolore lorem magna fugiat consequat voluptate. Picanha fugiat chicken, cupim aliquip magna filet mignon prosciutto ut nostrud. Kielbasa rump frankfurter sunt corned beef. Andouille in cillum deserunt, rump et picanha landjaeger tongue anim.</p>
+	<p>Ad meatball ipsum ground round shank. Quis ipsum meatball exercitation. Laborum swine spare ribs, sunt ball tip magna t-bone venison. Velit doner voluptate non occaecat do ribeye kevin strip steak et. Esse biltong shank ribeye dolor pariatur aute deserunt non est eiusmod pork belly pancetta pork chop. Pork chop id consectetur rump, meatball short loin brisket tail andouille deserunt alcatra irure prosciutto do.</p>
+	<p>Dolore reprehenderit ex, meatball doner commodo consectetur ea ribeye. Ad aliqua kevin, chuck excepteur minim et cow esse ham hock landjaeger. Alcatra bresaola dolore tempor do, excepteur in velit flank officia dolore meatloaf corned beef picanha. Eu pancetta brisket eiusmod ipsum aute sausage, culpa rump shoulder excepteur nostrud venison sed pork loin. Tempor proident do magna ground round. Ut venison frankfurter et veniam dolore. Pig pork belly beef ribs kevin, doner exercitation magna esse shankle.</p>
+	<p>Flank anim chuck boudin id consectetur bresaola ham pork loin cupim andouille frankfurter. Proident do ball tip nostrud nulla sed, frankfurter ut commodo corned beef ut. Ex aute in, pig deserunt beef ribs turducken pastrami irure ball tip pork belly pork chop sausage id. Chicken sunt nisi tempor sed. In eiusmod non fatback tempor tenderloin pastrami adipisicing cow lorem ut tail jerky cupidatat venison. Jowl consequat commodo pork loin ipsum pork belly prosciutto aute beef. Ball tip shoulder aliqua, fugiat landjaeger kevin pork chop beef ribs leberkas hamburger cillum turkey ut doner culpa.</p>
+</main>
+<footer>
+	<p>© 2015 No rights reserved.</p>
+	<p>Made with ♥ by an anonymous pastafarian.</p>
+</footer>
+</body>
+<style lang="css">
+/**
+ * Sticky footer with flexible height
+ */
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+main {
+	flex: 1;
+}
+
+/* Toggle checkbox to alternate between short/long content */
+#contents:checked ~ p { display: none }
+
+/* Basic styling */
+body {
+	margin: 0;
+	font: 100%/1.5 Baskerville, Palatino Linotype, Palatino, serif;
+}
+
+h1 { margin: .5em 0 0; }
+
+header { text-align: center; height: 3em; }
+
+main, footer {
+	display: block;
+	padding: .5em calc(50% - 400px);
+}
+
+footer {
+	background: linear-gradient(#222, #444);
+	color: white;
+}
+</style>
+</html>
+```
+
+## 6过渡与动画
+
+### 6.1弹跳动画
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<header>
+	<h1>Site name</h1>
+</header>
+<div class="ball"></div>
+</body>
+<style lang="css">
+/**
+ * Bouncing animation
+ */
+
+@keyframes bounce {
+	60%, 80%, to {
+		transform: translateY(400px);
+		animation-timing-function: ease;
+	}
+	70% { transform: translateY(300px); }
+	90% { transform: translateY(360px); }
+}
+
+.ball {
+	width: 0; height: 0; padding: 1.5em;
+	border-radius: 50%;
+	margin: auto;
+	background: red radial-gradient(at 30% 30%, #fdd, red);
+	animation: bounce 2s cubic-bezier(.1,.25,1,.25) forwards;
+}
+
+body {
+	background: linear-gradient(skyblue, white 450px, yellowgreen 0);
+	min-height: 100vh;
+}
+</style>
+</html>
+```
+
+### 5.2弹性过渡
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<label>
+	Your username:
+	<input value="leaverou"/>
+	<span class="callout">
+	Only letters, numbers, underscores (_) and hyphens (-) allowed!
+	</span>
+</label>
+</body>
+<style lang="css">
+/**
+ * Elastic transitions
+ */
+
+input:not(:focus) + .callout:not(:hover) {
+	transform: scale(0);
+	transition: .25s transform;
+}
+
+.callout {
+	transition: .5s cubic-bezier(.25,.1,.3,1.5) transform;
+	transform-origin: 1.4em -.4em;
+}
+
+/* Styling */
+body {
+	padding: 1.5em;
+	font: 200%/1.6 Baskerville;
+}
+
+input {
+	display: block;
+	padding: 0 .4em;
+	font: inherit;
+}
+
+.callout {
+	position: absolute;
+	max-width: 14em;
+	padding: .6em .8em;
+	border-radius: .3em;
+	margin: .3em 0 0 -.2em;
+	background: #fed;
+	border: 1px solid rgba(0,0,0,.3);
+	box-shadow: .05em .2em .6em rgba(0,0,0,.2);
+	font-size: 75%;
+}
+
+.callout:before {
+	content: "";
+	position: absolute;
+	top: -.4em;
+	left: 1em;
+	padding: .35em;
+	background: inherit;
+	border: inherit;
+	border-right: 0;
+	border-bottom: 0;
+	transform: rotate(45deg);
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-10-09_22-23-53.png)
+
+### 5.3逐帧动画
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<div class="loader">Loading…</div>
+</body>
+<style lang="css">
+/**
+ * Frame-by-frame animations
+ */
+
+@keyframes loader {
+	to { background-position: -800px 0; }
+}
+
+.loader {
+	width: 100px; height: 100px;
+	text-indent: 999px; overflow: hidden; /* Hide text */
+	background: url(loader.png) 0 0;
+	animation: loader 1s infinite steps(8);
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-10-09_22-34-19.png)
+
+### 6.4闪烁效果
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符</title>
+    <!--    <link rel="stylesheet" href="demo1.css">-->
+</head>
+<body>
+<p class="blink-smooth-1">Peek-a-boo!</p>
+<p class="blink-smooth-2">Peek-a-boo!</p>
+<p class="blink">Peek-a-boo!</p>
+</body>
+<style lang="css">
+/**
+ * Blinking
+ */
+
+@keyframes blink-1 { 50% { color: transparent } }
+@keyframes blink-2 { to { color: transparent } }
+
+p {
+	padding: 1em;
+	background: gold;
+}
+
+.blink-smooth-1 {
+	animation: 1s blink-1 3;
+}
+
+.blink-smooth-2 {
+	animation: .5s blink-2 6;
+	animation-direction: alternate;
+}
+
+.blink {
+	animation: 1s blink-1 3 steps(1);
+}
+</style>
+</html>
+```
+
+![](.\image\Snipaste_2022-10-09_22-41-03.png)

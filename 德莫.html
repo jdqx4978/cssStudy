@@ -6,123 +6,34 @@
     <!--    <link rel="stylesheet" href="demo1.css">-->
 </head>
 <body>
-<section>
-    <h1>With table-layout: auto</h1>
-    <div>
-        <table>
-            <tr>
-                <td>如果我们不……</td>
-                <td>指定单元格的宽度，则这些单元格就会根据它们内容的长
-                    短来分配宽度。也就是说，内容较长的单元格所能分配到
-                    的宽度也较多
-                </td>
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <td>如果我们不……</td>
-                <td>指定单元格的宽度，则这些单元格就会根据
-                    它们内容的长短来分配宽度。也就是说，内
-                    容较长的单元格所能分配到的宽度也较多
-                </td>
-            </tr>
-            <tr>
-                <td>表格的每一行都会参与到列
-                    宽的计算中，而不仅是第一
-                    行
-                </td>
-                <td>注意，这个表格的列宽分配结果跟上面那个
-                    表格不同
-                </td>
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <td style="width: 1000px">即使我们为单元格指定了
-                    宽度，也未必会得到对应
-                    的结果。比如这个单元格
-                    的宽度被指定为
-                    <code>1000px</code>…
-                </td>
-                <td style="width: 2000px">.由于
-                    外层容器所能提供的空间远远不足<code>3000px</code>，
-                    这两个单元格的宽度会按比例缩小，分别得
-                    到总宽度的 33.3% 和 66.6%
-                </td>
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <td>如果我们禁
-                    止文本折行
-                    行为，那么
-                    表格宽度可
-                    能会远远超
-                    出其容器的
-                    宽度
-                </td>
-                <td class="preformatted">且 <code>text-overflow: ellipsis</code> 对此也无能为力，这一点很遗憾</td>
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <td>大图片或代
-                    码块也可能
-                    会导致同样
-                    的问题
-                </td>
-                <td><img src="haijing.png"/></td>
-            </tr>
-        </table>
-    </div>
-</section>
-
-<section>
-    <h1>With table-layout: fixed</h1>
-    <div></div>
-</section>
-<script>
-    document.querySelector('section + section div').innerHTML = document.querySelector('section:first-of-type div').innerHTML;
-</script>
+<p class="blink-smooth-1">Peek-a-boo!</p>
+<p class="blink-smooth-2">Peek-a-boo!</p>
+<p class="blink">Peek-a-boo!</p>
 </body>
 <style lang="css">
-    /**
-     * Taming table column widths
-     */
+/**
+ * Blinking
+ */
 
-    body {
-        background: #ddd
-    }
+@keyframes blink-1 { 50% { color: transparent } }
+@keyframes blink-2 { to { color: transparent } }
 
-    section {
-        width: 500px;
-        margin: 2em;
-        background: white;
-    }
+p {
+	padding: 1em;
+	background: gold;
+}
 
-    table {
-        border-collapse: collapse;
-        margin-bottom: 1em;
-        width: 100%;
-    }
+.blink-smooth-1 {
+	animation: 1s blink-1 3;
+}
 
-    section + section table {
-        table-layout: fixed
-    }
+.blink-smooth-2 {
+	animation: .5s blink-2 6;
+	animation-direction: alternate;
+}
 
-    td {
-        border: 1px solid #aaa;
-    }
-
-    td.preformatted {
-        white-space: pre;
-        font-family: Consolas, Monaco, monospace;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
+.blink {
+	animation: 1s blink-1 3 steps(1);
+}
 </style>
 </html>
