@@ -73,9 +73,10 @@ Vue.component('input-number',{
         },
         add(event){
             if(event.keyCode === 38){
-                event.target.selectionStart
+                event.preventDefault()
                 this.handleUp()
             }else if (event.keyCode === 40){
+                event.preventDefault()
                 this.handleDown()
             }
         }
