@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问卷调查</title>
+</head>
+<body>
+<div id="app">
+    <div>
+        <div v-show="activePage === 1">
+            <div>1.请问您的性别是：</div>
+            <radio-test v-model="gender" :group="group" @change="radioChange"></radio-test>
+        </div>
+    </div>
+    <div>
+        <div v-show="activePage === 2">
+            <div>2.请选择您的兴趣爱好：</div>
+            <checkbox-test v-model="hobbyValue" :hobbys="hobby" @change="hobbyChange"></checkbox-test>
+        </div>
+    </div>
+    <button @click="onNext" v-show="activePage !== 3">下一步</button>
+    <button @click="onPre" v-show="activePage !== 1">上一步</button>
+    <button @click="clear">重置</button>
+</div>
+<script src="../vue.js"></script>
+<script src="radio.js"></script>
+<script src="checkbox.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                activePage: 1,
+                gender: '',
+                group: [
+                    {
+                        value: '1',
+                        label: '男',
+                    },
+                    {
+                        value: '2',
+                        label: '女',
+                    },
+                    {
+                        value: '3',
+                        label: '保密',
+                    }
+                ],
+                hobbyValue: [],
+                hobby: ['看书', '游泳', '跑步', '看电影', '听音乐']
+            }
+        },
+        methods: {
+            radioChange(e) {
+                this.gender = e
+            },
+            hobbyChange(e) {
+                this.hobbyValue = e
+                console.log(this.hobbyValue)
+            },
+            onNext() {
+                this.activePage++
+            },
+            clear() {
+                if (this.activePage === 1) {
+                    this.gender = ''
+                } else if (this.activePage === 2){
+                    this.hobbyValue = []
+                }
+            },
+            onPre() {
+                this.activePage--
+            }
+        }
+    })
+</script>
+</body>
+</html>
